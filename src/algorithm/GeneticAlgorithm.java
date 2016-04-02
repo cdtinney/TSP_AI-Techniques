@@ -20,6 +20,10 @@ public class GeneticAlgorithm {
 			Tour parent1 = fittestFromGroup(initPopulation);
 			Tour parent2 = fittestFromGroup(initPopulation);
 			
+			if (parent1 == parent2) {
+				// TODO
+			}
+			
 			// Do crossover
 			Tour child = crossover(parent1, parent2);
 			
@@ -65,12 +69,21 @@ public class GeneticAlgorithm {
 			City parentCity = parent2.getCity(i);
 			
 			// Skip cities that have already been added to the child
-			if (child.contains(parentCity)) continue;
+			if (child.contains(parentCity)) {
+				continue;
+			}
 			
 			// Add the city in the first available position in the child tour
 			for (int j=0; j<child.getSize(); j++) {
-				if (child.getCity(j) != null) continue;
+				
+				// 
+				if (child.getCity(j) != null) {
+					continue;
+				}
+				
 				child.setCity(j, parentCity);
+				break;
+				
 			}
 			
 		}

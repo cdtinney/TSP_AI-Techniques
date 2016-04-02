@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Population {
 	
@@ -10,7 +12,7 @@ public class Population {
 	
 	public Population(int size) {
 		this.size = size;
-		tours = new ArrayList<Tour>();
+		tours = new ArrayList<Tour>(Collections.nCopies(size, null));
 	}
 	
 	public Population(List<Tour> initialTours) {
@@ -37,6 +39,7 @@ public class Population {
 	public Tour getFittest() {		
 		
 		 return tours.stream()
+	            .filter(Objects::nonNull)
                  .min((t1, t2) -> Double.compare(t1.getFitness(), t2.getFitness()))
                  .get();	
 		 

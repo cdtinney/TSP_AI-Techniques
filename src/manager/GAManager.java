@@ -63,11 +63,12 @@ public class GAManager {
         // Initialize population
         Population pop = new Population(tours);
         System.out.println("Initial distance: " + pop.getFittest().getDistance());
+        System.out.println("Generation #0:" + pop.getFittest() + "\n");
 
         // Evolve population for 100 generations
-        pop = GeneticAlgorithm.evolve(pop);
         for (int i = 0; i < 100; i++) {
             pop = GeneticAlgorithm.evolve(pop);
+            System.out.println("Generation #" + (i + 1) + ": " + pop.getFittest());
         }
 
         // Print final results

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Tour {
@@ -9,18 +10,17 @@ public class Tour {
 	private int size;
 	
 	// GA parameters
-	private double fitness;
-	private int distance;
+	private double fitness = 0;
+	private int distance = 0;
 	
 	public Tour(int size) {
 		this.size = size;
-		this.tour = new ArrayList<City>();
+		this.tour = new ArrayList<City>(Collections.nCopies(size, null));
 	}
 	
 	public Tour(List<City> tour) {
 		this(tour.size());
 		this.tour = tour;
-		setParameters();
 	}
 	
 	public int getSize() {
@@ -36,16 +36,28 @@ public class Tour {
     }
 
 	public int getDistance() {
+		
+		if (distance == 0) {
+			setDistance();
+		}
+		
 		return distance;
+		
 	}
 	
 	public double getFitness() {
+		
+		if (fitness == 0) {
+			setFitness();
+		}
+		
 		return fitness;
+		
 	}
 
     public void setCity(int position, City city) {
         tour.set(position, city);
-        setParameters();
+        resetParameters();
     }
     
     public void setDistance() {
@@ -59,7 +71,10 @@ public class Tour {
         	
         	City from = tour.get(i);
         	City to = tour.get((i + 1) % tour.size());
-        	sum += from.distanceTo(to);
+        	
+        	if (from != null && to != null) {
+        		sum += from.distanceTo(to);
+        	}
         	
         }
         
@@ -69,7 +84,7 @@ public class Tour {
     
     public void setFitness() {
     	
-    	if (fitness != 0) {
+    	if (fitness != 0 || distance == 0) {
     		return;
     	}
     	
@@ -81,9 +96,21 @@ public class Tour {
         return tour.contains(city);
     }
     
-    private void setParameters() {
-    	setDistance();
-    	setFitness();
+    private void resetParameters() {
+    	distance = 0;
+    	fitness = 0;
+    }
+    
+    @Override
+    public String toString() {
+    	
+        String str = "|";
+        for (int i = 0; i < size; i++) {
+        	str += tour.get(i) + "|";
+        }
+        
+        return str;
+        
     }
 	
 }
