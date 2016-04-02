@@ -11,10 +11,43 @@ import model.Tour;
 
 public class GAManager {
 	
-	public static void run() {
+	private List<City> cities;
+	private Population initPopulation;
+	private Population currentPopulation;
+	
+	public void init() {
+		generateCities();
+		generateInitPopulation();
+	}
 
-		// Create a list of cities
-		List<City> cities = new ArrayList<City>();
+	public List<City> getCities() {
+		return cities;
+	}
+	
+	public void run() {
+        
+        System.out.println("Initial distance: " + initPopulation.getFittest().getDistance());
+        System.out.println("Generation #0:" + initPopulation.getFittest() + "\n");
+
+        currentPopulation = initPopulation;
+        
+        // Evolve population for 100 generations
+        for (int i = 0; i < 100; i++) {
+        	currentPopulation = GeneticAlgorithm.evolve(currentPopulation);
+            System.out.println("Generation #" + (i + 1) + ": " + currentPopulation.getFittest());
+        }
+
+        // Print final results
+        System.out.println("Finished");
+        System.out.println("Final distance: " + currentPopulation.getFittest().getDistance());
+        System.out.println("Solution:");
+        System.out.println(currentPopulation.getFittest());
+		
+	}
+	
+	private void generateCities() {
+		
+		cities = new ArrayList<City>();
         City city = new City(60, 200);
         cities.add(city);
         City city2 = new City(180, 200);
@@ -56,26 +89,16 @@ public class GAManager {
         City city20 = new City(160, 20);
         cities.add(city20);
         
+	}
+	
+	private void generateInitPopulation() {
+		
         // Generate random tours
         RandomTourGenerator gen = new RandomTourGenerator();
         List<Tour> tours = gen.generate(cities.size(), cities);
 
         // Initialize population
-        Population pop = new Population(tours);
-        System.out.println("Initial distance: " + pop.getFittest().getDistance());
-        System.out.println("Generation #0:" + pop.getFittest() + "\n");
-
-        // Evolve population for 100 generations
-        for (int i = 0; i < 100; i++) {
-            pop = GeneticAlgorithm.evolve(pop);
-            System.out.println("Generation #" + (i + 1) + ": " + pop.getFittest());
-        }
-
-        // Print final results
-        System.out.println("Finished");
-        System.out.println("Final distance: " + pop.getFittest().getDistance());
-        System.out.println("Solution:");
-        System.out.println(pop.getFittest());
+        initPopulation = new Population(tours);
 		
 	}
 
