@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import model.City;
+import model.Tour;
 
 public class MainView extends Scene {
 	
@@ -19,6 +20,10 @@ public class MainView extends Scene {
 		
 		addViews();
 		
+	}
+	
+	public void updateTour(Tour tour) {
+		mapCanvas.updateTour(tour);
 	}
 	
 	public void updateCities(List<City> cities) {

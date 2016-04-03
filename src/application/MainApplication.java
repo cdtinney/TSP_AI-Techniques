@@ -19,6 +19,10 @@ public class MainApplication extends Application {
 		primaryStage.setScene(controller.getView());
 		primaryStage.show();
 		
+		// Launch the controller/model on a separate thread so the UI can be updated in real time
+		Runnable task = () -> { controller.run(); };
+		new Thread(task).start();
+		
 	}
 	
 	public static void main(String[] args) {

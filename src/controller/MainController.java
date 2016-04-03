@@ -14,9 +14,17 @@ public class MainController {
 	
 	public void init() {
 		
-		gaManager.init();
+		gaManager.init();		
+		gaManager.addListener(tour -> {
+			view.updateTour(tour);			
+		});
+		
 		view.updateCities(gaManager.getCities());
 		
+	}
+	
+	public void run() {		
+		gaManager.run();		
 	}
 	
 	public MainView getView() {

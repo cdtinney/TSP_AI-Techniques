@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Tour {
 	
-	private List<City> tour;
+	private List<City> cities;
 	private int size;
 	
 	// GA parameters
@@ -15,24 +15,24 @@ public class Tour {
 	
 	public Tour(int size) {
 		this.size = size;
-		this.tour = new ArrayList<City>(Collections.nCopies(size, null));
+		this.cities = new ArrayList<City>(Collections.nCopies(size, null));
 	}
 	
 	public Tour(List<City> tour) {
 		this(tour.size());
-		this.tour = tour;
+		this.cities = tour;
 	}
 	
 	public int getSize() {
 		return size;
 	}
 
-	public List<City> getTour() {
-		return tour;
+	public List<City> getCities() {
+		return cities;
 	}
 
     public City getCity(int position) {
-        return tour.get(position);
+        return cities.get(position);
     }
 
 	public int getDistance() {
@@ -56,7 +56,7 @@ public class Tour {
 	}
 
     public void setCity(int position, City city) {
-        tour.set(position, city);
+        cities.set(position, city);
         resetParameters();
     }
     
@@ -67,10 +67,10 @@ public class Tour {
     	}
         	
         int sum = 0;
-        for (int i=0; i<tour.size(); i++) {
+        for (int i=0; i<cities.size(); i++) {
         	
-        	City from = tour.get(i);
-        	City to = tour.get((i + 1) % tour.size());
+        	City from = cities.get(i);
+        	City to = cities.get((i + 1) % cities.size());
         	
         	if (from != null && to != null) {
         		sum += from.distanceTo(to);
@@ -93,7 +93,7 @@ public class Tour {
     }
     
     public boolean contains(City city){
-        return tour.contains(city);
+        return cities.contains(city);
     }
     
     private void resetParameters() {
@@ -106,7 +106,7 @@ public class Tour {
     	
         String str = "|";
         for (int i = 0; i < size; i++) {
-        	str += tour.get(i) + "|";
+        	str += cities.get(i) + "|";
         }
         
         return str;

@@ -3,46 +3,62 @@ package manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import algorithm.AlgorithmListener;
 import algorithm.GeneticAlgorithm;
+import algorithm.ObservableAlgorithm;
 import generator.RandomTourGenerator;
 import model.City;
 import model.Population;
 import model.Tour;
 
-public class GAManager {
+public class GAManager implements ObservableAlgorithm {
+	
+	private static final int NUM_GENERATIONS 	= 100;
+	private static final int DELAY 				= 100;
 	
 	private List<City> cities;
-	private Population initPopulation;
 	private Population currentPopulation;
+	
+	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
 	
 	public void init() {
 		generateCities();
 		generateInitPopulation();
+	}
+	
+	public void run() {
+        
+        System.out.println("Initial distance: " + currentPopulation.getFittest().getDistance());
+        System.out.println("Generation #0:" + currentPopulation.getFittest() + "\n");
+        
+        // Evolve population for certain number of generations
+        for (int i = 0; i < NUM_GENERATIONS; i++) {
+        	
+        	currentPopulation = GeneticAlgorithm.evolve(currentPopulation);
+            System.out.println("Generation #" + (i + 1) + ": " + currentPopulation.getFittest());
+            notifyListeners();
+            
+            try {
+                Thread.sleep(DELAY);             
+                
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                
+            }
+            
+        }
+
+        System.out.println("\nFinal distance: " + currentPopulation.getFittest().getDistance());
+        System.out.println("Solution: " + currentPopulation.getFittest());
+		
 	}
 
 	public List<City> getCities() {
 		return cities;
 	}
 	
-	public void run() {
-        
-        System.out.println("Initial distance: " + initPopulation.getFittest().getDistance());
-        System.out.println("Generation #0:" + initPopulation.getFittest() + "\n");
-
-        currentPopulation = initPopulation;
-        
-        // Evolve population for 100 generations
-        for (int i = 0; i < 100; i++) {
-        	currentPopulation = GeneticAlgorithm.evolve(currentPopulation);
-            System.out.println("Generation #" + (i + 1) + ": " + currentPopulation.getFittest());
-        }
-
-        // Print final results
-        System.out.println("Finished");
-        System.out.println("Final distance: " + currentPopulation.getFittest().getDistance());
-        System.out.println("Solution:");
-        System.out.println(currentPopulation.getFittest());
-		
+	public Population getCurrentPopulation() {
+		return currentPopulation;
 	}
 	
 	private void generateCities() {
@@ -98,8 +114,25 @@ public class GAManager {
         List<Tour> tours = gen.generate(cities.size(), cities);
 
         // Initialize population
-        initPopulation = new Population(tours);
+        currentPopulation = new Population(tours);
+        
+        // Notify any listeners
+        notifyListeners();
 		
+	}
+	
+	private void notifyListeners() {
+		listeners.stream().forEach(l -> l.onChange(currentPopulation.getFittest()));
+	}
+
+	@Override
+	public void addListener(AlgorithmListener listener) {
+		listeners.add(listener);
+	}
+
+	@Override
+	public void removeListener(AlgorithmListener listener) {
+		listeners.remove(listener);
 	}
 
 }

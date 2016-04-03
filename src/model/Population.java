@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+
 public class Population {
 	
 	private List<Tour> tours;	
