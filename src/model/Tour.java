@@ -48,7 +48,7 @@ public class Tour {
 	public double getFitness() {
 		
 		if (fitness == 0) {
-			setFitness();
+			fitness = 1 / ((double) getDistance());
 		}
 		
 		return fitness;
@@ -79,16 +79,6 @@ public class Tour {
         }
         
         distance = sum;
-    	
-    }
-    
-    public void setFitness() {
-    	
-    	if (fitness != 0 || distance == 0) {
-    		return;
-    	}
-    	
-    	fitness = 1 / distance;
     	
     }
     

@@ -9,6 +9,7 @@ public class GeneticAlgorithm {
 	// Parameters
 	private static final double MUTATION_RATE 	= 0.015;
 	private static final int 	GROUP_SIZE 		= 5;
+	private static final boolean ELITISM 		= true;
 	
 	// TODO - Configurable crossover method
 	// TODO - Configurable mutation method
@@ -17,13 +18,29 @@ public class GeneticAlgorithm {
 		
 		Population newPopulation = new Population(initPopulation.getSize());
 		
-		for (int i=0; i<newPopulation.getSize(); i++) {
+		int offset = 0;
+		if (ELITISM) {
+			newPopulation.setTour(0, initPopulation.getFittest());
+			offset = 1;
+		}
+		
+		for (int i=offset; i<newPopulation.getSize(); i++) {
 				
-			// Get two of the fittest tours from random groups
-			Tour parent1 = fittestFromGroup(initPopulation);
-			Tour parent2 = fittestFromGroup(initPopulation);
+			Tour parent1, parent2;
 			
-			// Do crossover
+			// Ensure both of the parents are different
+			while (true) {
+				
+				parent1 = fittestFromGroup(initPopulation);
+				parent2 = fittestFromGroup(initPopulation);
+				
+				if (parent1 != parent2) {
+					break;
+				}
+				
+			}
+			
+			// Do crossover to generate a new child
 			Tour child = crossover(parent1, parent2);
 			
 			// Add the child to the new population
@@ -32,7 +49,7 @@ public class GeneticAlgorithm {
 		}
 		
 		// Mutate the children
-		for (int i=0; i<newPopulation.getSize(); i++) {
+		for (int i=offset; i<newPopulation.getSize(); i++) {
 			mutate(newPopulation.getTour(i));
 		}
 		
@@ -57,7 +74,7 @@ public class GeneticAlgorithm {
 		// Add the subset of cities from parent1 to the child, in correct positions
 		for (int i=0; i<child.getSize(); i++) {
 			
-			if (i <= startIndex || i >= endIndex) continue;
+			if (i < startIndex || i > endIndex) continue;
 			child.setCity(i, parent1.getCity(i));
 		
 		}
@@ -91,11 +108,11 @@ public class GeneticAlgorithm {
 	/* TODO - Abstract this so different mutation methods can be compared */
     private static void mutate(Tour tour) {
     	
-    	if (Math.random() >= MUTATION_RATE) {
-    		return;
-    	}
-    	
         for (int i=0; i < tour.getSize(); i++) {
+        	
+        	if (Math.random() >= MUTATION_RATE) {
+        		continue;
+        	}
         	
 	        // Get a second, random city in the tour
 	        int randomPos = (int) (tour.getSize() * Math.random());
@@ -117,9 +134,12 @@ public class GeneticAlgorithm {
 		for (int i=0; i<group.getSize(); i++) {
 			
 			int randomIndex = (int) (Math.random() * group.getSize());
-			group.addTour(population.getTour(randomIndex));
+			group.setTour(i, population.getTour(randomIndex));
 			
 		}
+		
+		Tour fittest = group.getFittest();
+		System.out.format("%.10f\n", fittest.getFitness());
 		
 		// Get the fittest tour from that group
 		return group.getFittest();

@@ -41,11 +41,16 @@ public class Population {
 	
 	public Tour getFittest() {		
 		
-		 return tours.stream()
-	            .filter(Objects::nonNull)
-                 .min((t1, t2) -> Double.compare(t1.getFitness(), t2.getFitness()))
-                 .get();	
+		Tour fittest = tours.get(0);
+		for (int i=0; i<tours.size(); i++) {
+			
+			if (fittest.getFitness() <= tours.get(i).getFitness()) {
+				fittest = tours.get(i);
+			}
+			
+		}
 		 
+		return fittest;
 	}
 
 }
