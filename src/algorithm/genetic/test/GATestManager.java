@@ -9,6 +9,7 @@ import algorithm.AlgorithmListener;
 import algorithm.genetic.GAManager;
 import algorithm.genetic.GAParameters;
 import algorithm.genetic.GeneticAlgorithm;
+import algorithm.genetic.crossover.CrossoverMethod;
 import algorithm.genetic.factory.GAFactory;
 import model.Population;
 
@@ -28,8 +29,8 @@ public class GATestManager {
 		
 //		testDefault();
 //		testMutationRates();
-		testNumGenerations();
-		
+//		testNumGenerations();
+		testCrossoverMethods();		
 		
 	}
 
@@ -40,6 +41,23 @@ public class GATestManager {
 		
 	}
 	
+	public void testCrossoverMethods() {
+
+		// TODO - Initial log message
+
+		List<GeneticAlgorithm> algorithms = GAFactory.getCrossoverMethods();
+		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
+		
+		for (GeneticAlgorithm ga : results.keySet()) {
+			
+			double average = calculateFinalDistanceAverage(results.get(ga));
+			logCrossoverMethod(ga.getParameters().getCrossoverMethod());
+			logAverageFinalDistance(average);
+			
+		}
+		
+	}
+
 	public void testNumGenerations() {
 
 		// TODO - Initial log message
@@ -121,10 +139,11 @@ public class GATestManager {
 		log("\tAverage Final Distance: " + average);
 	}
 	
-	private void logDistance(boolean initial, Population currentPopulation) {
-		log("\t" + (initial ? "Initial distance: " : "Final distance: ") + currentPopulation.getFittest().getDistance());
+	private void logCrossoverMethod(CrossoverMethod crossoverMethod) {
+		log("Crossover Method: " + crossoverMethod.getClass().getSimpleName());
 	}
 
+	@SuppressWarnings("unused")
 	private void logParameters(GAParameters parameters) {
 		
 		log("---- Parameters ----");

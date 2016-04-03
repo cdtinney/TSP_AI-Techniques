@@ -5,6 +5,8 @@ import java.util.List;
 
 import algorithm.genetic.GAParameters;
 import algorithm.genetic.GeneticAlgorithm;
+import algorithm.genetic.crossover.CrossoverMethod;
+import algorithm.genetic.crossover.OrderedCrossoverMethod;
 
 public class GAFactory {
 	
@@ -37,6 +39,32 @@ public class GAFactory {
 		}
 		
 		return result;
+	}
+
+	public static List<GeneticAlgorithm> getCrossoverMethods() {
+		
+		List<Class<? extends CrossoverMethod>> classes = new ArrayList<Class<? extends CrossoverMethod>>();
+		classes.add(OrderedCrossoverMethod.class);
+
+		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
+		for (Class<? extends CrossoverMethod> clazz : classes) {
+			
+			GAParameters params = new GAParameters();
+			
+			try {
+				params.setCrossoverMethod(clazz.newInstance());
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			}
+			
+			result.add(new GeneticAlgorithm(params));	
+			
+		}
+		
+		return result;
+		
 	}
 
 }

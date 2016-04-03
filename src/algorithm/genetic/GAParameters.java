@@ -32,6 +32,10 @@ public class GAParameters {
 		return crossoverMethod;
 	}
 	
+	public void setCrossoverMethod(CrossoverMethod crossoverMethod) {
+		this.crossoverMethod = crossoverMethod;
+	}
+	
 	public MutationMethod getMutationMethod() {
 		return mutationMethod;
 	}
