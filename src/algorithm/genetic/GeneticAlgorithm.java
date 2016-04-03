@@ -1,4 +1,4 @@
-package algorithm;
+package algorithm.genetic;
 
 import model.City;
 import model.Population;
@@ -6,20 +6,22 @@ import model.Tour;
 
 public class GeneticAlgorithm {
 	
-	// Parameters
-	private static final double MUTATION_RATE 	= 0.015;
-	private static final int 	GROUP_SIZE 		= 5;
-	private static final boolean ELITISM 		= true;
+	private GAParameters parameters;
 	
-	// TODO - Configurable crossover method
-	// TODO - Configurable mutation method
+	public GeneticAlgorithm(GAParameters parameters) {
+		this.parameters = parameters;
+	}
 	
-	public static Population evolve(Population initPopulation) {
+	public GAParameters getParameters() {
+		return parameters;
+	}
+	
+	public Population evolve(Population initPopulation) {
 		
 		Population newPopulation = new Population(initPopulation.getSize());
 		
 		int offset = 0;
-		if (ELITISM) {
+		if (parameters.getElitism()) {
 			newPopulation.setTour(0, initPopulation.getFittest());
 			offset = 1;
 		}
@@ -58,7 +60,7 @@ public class GeneticAlgorithm {
 	}
 	
 	/* TODO - Abstract this so different crossover methods can be compared */
-	private static Tour crossover(Tour parent1, Tour parent2) {
+	private Tour crossover(Tour parent1, Tour parent2) {
 		
 		// TODO - Use TourManager class to store information about cities/size
 		Tour child = new Tour(parent1.getSize());
@@ -106,11 +108,11 @@ public class GeneticAlgorithm {
 	}
 
 	/* TODO - Abstract this so different mutation methods can be compared */
-    private static void mutate(Tour tour) {
+    private void mutate(Tour tour) {
     	
         for (int i=0; i < tour.getSize(); i++) {
         	
-        	if (Math.random() >= MUTATION_RATE) {
+        	if (Math.random() >= parameters.getMutationRate()) {
         		continue;
         	}
         	
@@ -126,9 +128,9 @@ public class GeneticAlgorithm {
         
     }
 	
-	private static Tour fittestFromGroup(Population population) {
+	private Tour fittestFromGroup(Population population) {
 		
-		Population group = new Population(GROUP_SIZE);
+		Population group = new Population(parameters.getGroupSize());
 		
 		// Generate a random group of GROUP_SIZE
 		for (int i=0; i<group.getSize(); i++) {
@@ -137,9 +139,6 @@ public class GeneticAlgorithm {
 			group.setTour(i, population.getTour(randomIndex));
 			
 		}
-		
-		Tour fittest = group.getFittest();
-		System.out.format("%.10f\n", fittest.getFitness());
 		
 		// Get the fittest tour from that group
 		return group.getFittest();

@@ -48,9 +48,11 @@ public class Population {
 				fittest = tours.get(i);
 			}
 			
+			
 		}
-		 
+		
 		return fittest;
+		 
 	}
 
 }

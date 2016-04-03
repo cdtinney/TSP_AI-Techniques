@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import algorithm.AlgorithmListener;
-import algorithm.GeneticAlgorithm;
 import algorithm.ObservableAlgorithm;
+import algorithm.genetic.GAParameters;
+import algorithm.genetic.GeneticAlgorithm;
 import generator.RandomTourGenerator;
 import model.City;
 import model.Population;
@@ -13,7 +14,6 @@ import model.Tour;
 
 public class GAManager implements ObservableAlgorithm {
 	
-	private static final int NUM_GENERATIONS 	= 100;
 	private static final int DELAY 				= 50;
 	
 	private List<City> cities;
@@ -31,8 +31,11 @@ public class GAManager implements ObservableAlgorithm {
         System.out.println("Initial distance: " + currentPopulation.getFittest().getDistance());
         System.out.println("Generation #0:" + currentPopulation.getFittest() + "\n");
         
+        // Initialize GA
+        GeneticAlgorithm ga = new GeneticAlgorithm(new GAParameters());
+        
         // Evolve population for certain number of generations
-        for (int i = 0; i < NUM_GENERATIONS; i++) {
+        for (int i = 0; i < ga.getParameters().getNumGenerations(); i++) {
             
             try {
             	Thread.sleep(DELAY);             
@@ -42,7 +45,7 @@ public class GAManager implements ObservableAlgorithm {
                 
             }
         	
-        	currentPopulation = GeneticAlgorithm.evolve(currentPopulation);
+        	currentPopulation = ga.evolve(currentPopulation);
             System.out.println("Generation #" + (i + 1) + ": " + currentPopulation.getFittest());
             notifyListeners();
             
