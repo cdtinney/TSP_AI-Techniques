@@ -1,6 +1,7 @@
 package controller;
 
 import application.MainApplication;
+import javafx.application.Platform;
 import manager.GAManager;
 import view.MainView;
 
@@ -16,7 +17,13 @@ public class MainController {
 		
 		gaManager.init();		
 		gaManager.addListener(tour -> {
-			view.updateTour(tour);			
+			
+			// Run on the JavaFX thread
+			Platform.runLater(() -> {
+				view.updateTour(tour);			
+				view.updateText("Distance: " + String.valueOf(tour.getDistance()));
+			});
+			
 		});
 		
 		view.updateCities(gaManager.getCities());

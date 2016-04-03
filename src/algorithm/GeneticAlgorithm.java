@@ -10,6 +10,9 @@ public class GeneticAlgorithm {
 	private static final double MUTATION_RATE 	= 0.015;
 	private static final int 	GROUP_SIZE 		= 5;
 	
+	// TODO - Configurable crossover method
+	// TODO - Configurable mutation method
+	
 	public static Population evolve(Population initPopulation) {
 		
 		Population newPopulation = new Population(initPopulation.getSize());
@@ -19,10 +22,6 @@ public class GeneticAlgorithm {
 			// Get two of the fittest tours from random groups
 			Tour parent1 = fittestFromGroup(initPopulation);
 			Tour parent2 = fittestFromGroup(initPopulation);
-			
-			if (parent1 == parent2) {
-				// TODO
-			}
 			
 			// Do crossover
 			Tour child = crossover(parent1, parent2);
@@ -76,13 +75,10 @@ public class GeneticAlgorithm {
 			// Add the city in the first available position in the child tour
 			for (int j=0; j<child.getSize(); j++) {
 				
-				// 
-				if (child.getCity(j) != null) {
-					continue;
+				if (child.getCity(j) == null) {
+					child.setCity(j, parentCity);
+					break;
 				}
-				
-				child.setCity(j, parentCity);
-				break;
 				
 			}
 			
@@ -119,8 +115,10 @@ public class GeneticAlgorithm {
 		
 		// Generate a random group of GROUP_SIZE
 		for (int i=0; i<group.getSize(); i++) {
+			
 			int randomIndex = (int) (Math.random() * group.getSize());
 			group.addTour(population.getTour(randomIndex));
+			
 		}
 		
 		// Get the fittest tour from that group

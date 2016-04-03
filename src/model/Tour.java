@@ -112,5 +112,40 @@ public class Tour {
         return str;
         
     }
+
+	@Override
+	public int hashCode() {
+		
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cities == null) ? 0 : cities.hashCode());
+		return result;
+		
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tour other = (Tour) obj;
+		if (cities == null) {
+			if (other.cities != null)
+				return false;
+		} else {			
+			for (int i=0; i<cities.size(); i++) {
+				if (!cities.get(i).equals(other.cities.get(i))) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+		
+	}
 	
 }
