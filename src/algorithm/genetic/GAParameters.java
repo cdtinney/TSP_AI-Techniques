@@ -1,7 +1,9 @@
 package algorithm.genetic;
 
 import algorithm.genetic.crossover.CrossoverMethod;
+import algorithm.genetic.crossover.CrossoverMethodFactory;
 import algorithm.genetic.mutation.MutationMethod;
+import algorithm.genetic.mutation.MutationMethodFactory;
 
 public class GAParameters {
 	
@@ -15,29 +17,15 @@ public class GAParameters {
 	private boolean elitism 		= ELITISM_DEFAULT;
 	private int numGenerations		= NUM_GENERATIONS_DEFAULT;
 	
-	private MutationMethod mutationMethod;
-	private CrossoverMethod crossoverMethod;
+	private MutationMethod mutationMethod 	= MutationMethodFactory.getDefault();
+	private CrossoverMethod crossoverMethod = CrossoverMethodFactory.getDefault();
 	
 	public GAParameters() {
 		// Default constructor
 	}
 	
-	public GAParameters(MutationMethod mutationMethod, CrossoverMethod crossoverMethod) {
-		this.mutationMethod = mutationMethod;
-		this.crossoverMethod = crossoverMethod;
-	}
-	
-	public GAParameters(double mutationRate, int groupSize, boolean elitism, int numGenerations) {
+	public GAParameters(double mutationRate) {
 		this.mutationRate = mutationRate;
-		this.groupSize = groupSize;
-		this.elitism = elitism;
-		this.numGenerations = numGenerations;
-	}
-	
-	public GAParameters(MutationMethod mutationMethod, 
-			double mutationRate, int groupSize, boolean elitism, int numGenerations) {
-		this(mutationRate, groupSize, elitism, numGenerations);
-		this.mutationMethod = mutationMethod;
 	}
 	
 	public CrossoverMethod getCrossoverMethod() {

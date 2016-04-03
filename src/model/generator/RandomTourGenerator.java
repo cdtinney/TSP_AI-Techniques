@@ -16,7 +16,7 @@ public class RandomTourGenerator implements TourGenerator {
 		for (int i=0; i<num; i++) {
 			
 			List<City> randomCities = new ArrayList<City>(cities);
-			Collections.shuffle(randomCities);
+			//Collections.shuffle(randomCities);
 			result.add(new Tour(randomCities));
 			
 		}

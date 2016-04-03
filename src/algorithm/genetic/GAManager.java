@@ -13,7 +13,8 @@ import model.Population;
 public class GAManager implements ObservableAlgorithm {
 	
 	// Thread delay between iterations (ms)
-	private static final int DELAY = 50;
+	private static final int DELAY 			= 50;
+	private static final boolean USE_DELAY 	= false;
 	
 	// Model information
 	private List<City> cities;
@@ -23,8 +24,14 @@ public class GAManager implements ObservableAlgorithm {
 	// Listeners to be notified when the population changes
 	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
 	
-	public GAManager(GeneticAlgorithm geneticAlgorithm) {		
+	public GAManager(GeneticAlgorithm geneticAlgorithm, List<AlgorithmListener> listeners, boolean init) {		
 		this.geneticAlgorithm = geneticAlgorithm;
+		this.listeners.addAll(listeners);
+		
+		if (init) {
+			init();
+		}
+		
 	}
 	
 	public void init() {
@@ -36,19 +43,26 @@ public class GAManager implements ObservableAlgorithm {
 		
 	}
 	
+	public int getCurrentDistance() {
+		return currentPopulation.getFittest().getDistance();
+	}
+	
+	public GAParameters getParameters() {
+		return geneticAlgorithm.getParameters();
+	}
+	
 	public void run() {
-        
-        System.out.println("Initial distance: " + currentPopulation.getFittest().getDistance());
         
         for (int i = 0; i < geneticAlgorithm.getParameters().getNumGenerations(); i++) {     
         	
         	currentPopulation = geneticAlgorithm.evolve(currentPopulation);            
             notifyListeners();
-            sleep();
+            
+            if (USE_DELAY) {
+                sleep();
+            }
             
         }
-
-        System.out.println("Final distance: " + currentPopulation.getFittest().getDistance());
 		
 	}
 
@@ -79,6 +93,10 @@ public class GAManager implements ObservableAlgorithm {
 	@Override
 	public void addListener(AlgorithmListener listener) {
 		listeners.add(listener);
+	}
+	
+	public void addListeners(List<AlgorithmListener> listeners) {
+		this.listeners.addAll(listeners);
 	}
 
 	@Override

@@ -15,7 +15,6 @@ public class MainController {
 	
 	public void init() {
 		
-		gaTestManager.init();		
 		gaTestManager.addListener(tour -> {
 			
 			// Run on the JavaFX thread
@@ -26,12 +25,12 @@ public class MainController {
 			
 		});
 		
-		//view.updateCities(gaManager.getCities());
-		
 	}
 	
 	public void run() {		
-		gaTestManager.run();		
+		
+		gaTestManager.testMutationRates();
+		
 	}
 	
 	public MainView getView() {

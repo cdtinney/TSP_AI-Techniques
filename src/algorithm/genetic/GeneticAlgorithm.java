@@ -1,5 +1,6 @@
 package algorithm.genetic;
 
+import algorithm.RandomManager;
 import model.Population;
 import model.Tour;
 
