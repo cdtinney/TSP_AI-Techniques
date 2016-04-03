@@ -1,8 +1,8 @@
 package controller;
 
+import algorithm.genetic.test.GATestManager;
 import application.MainApplication;
 import javafx.application.Platform;
-import manager.GAManager;
 import view.MainView;
 
 public class MainController {
@@ -11,12 +11,12 @@ public class MainController {
 	private MainView view = new MainView(MainApplication.APP_WIDTH, MainApplication.APP_HEIGHT);
 	
 	// Model
-	private GAManager gaManager = new GAManager();
+	private GATestManager gaTestManager = new GATestManager();
 	
 	public void init() {
 		
-		gaManager.init();		
-		gaManager.addListener(tour -> {
+		gaTestManager.init();		
+		gaTestManager.addListener(tour -> {
 			
 			// Run on the JavaFX thread
 			Platform.runLater(() -> {
@@ -26,12 +26,12 @@ public class MainController {
 			
 		});
 		
-		view.updateCities(gaManager.getCities());
+		//view.updateCities(gaManager.getCities());
 		
 	}
 	
 	public void run() {		
-		gaManager.run();		
+		gaTestManager.run();		
 	}
 	
 	public MainView getView() {

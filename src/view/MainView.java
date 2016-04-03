@@ -5,7 +5,6 @@ import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
 import model.City;
 import model.Tour;
 

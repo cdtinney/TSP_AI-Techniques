@@ -1,4 +1,4 @@
-package generator;
+package model.generator;
 
 import java.util.ArrayList;
 import java.util.Collections;
