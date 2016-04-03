@@ -14,11 +14,23 @@ import model.Population;
 
 public class GATestManager {
 	
+	// Number of trials to run to determine an average
+	private final int NUM_TRIALS = 10;
+	
 	// Store listeners so they can be added to new GAManager instances
 	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
 
 	public void addListener(AlgorithmListener listener) {
 		listeners.add(listener);
+	}
+	
+	public void test() {
+		
+//		testDefault();
+//		testMutationRates();
+		testNumGenerations();
+		
+		
 	}
 
 	public void testDefault() {
@@ -28,45 +40,33 @@ public class GATestManager {
 		
 	}
 	
-	public void testMutationRates() {
-		
-		int numTrials = 10;
-		
-		List<GeneticAlgorithm> algorithms = GAFactory.getAllMutationRates();
-		
-		Map<GeneticAlgorithm, List<GAResult>> results = new LinkedHashMap<GeneticAlgorithm, List<GAResult>>();
-		algorithms.forEach(alg -> {
-			
-			for (int i=0; i<numTrials; i++) {
-			
-				GAManager gaManager = new GAManager(alg, listeners, true);
-				
-				int initialDistance = gaManager.getCurrentDistance();
-				
-	//			logMutationRate(gaManager.getParameters().getMutationRate());
-	//			logDistance(true, gaManager.getCurrentPopulation());
-				
-				gaManager.run();
-				
-				int finalDistance = gaManager.getCurrentDistance();
-				
-				if (!results.containsKey(alg)) results.put(alg, new ArrayList<GAResult>());
-				results.get(alg).add(new GAResult(gaManager.getParameters(), initialDistance, finalDistance));
-			
-			}
-			
-//			logDistance(false, gaManager.getCurrentPopulation());
-			
-		});
+	public void testNumGenerations() {
+
+		// TODO - Initial log message
+
+		List<GeneticAlgorithm> algorithms = GAFactory.getGenerations(100, 1000, 100);
+		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
 		
 		for (GeneticAlgorithm ga : results.keySet()) {
 			
-			double sum = 0;
-			for (int i=0; i<numTrials; i++) {
-				sum += results.get(ga).get(i).getFinalDistance();
-			}
+			double average = calculateFinalDistanceAverage(results.get(ga));
+			logGenerations(ga.getParameters().getNumGenerations());
+			logAverageFinalDistance(average);
 			
-			double average = sum / (double) numTrials;
+		}
+		
+	}
+	
+	public void testMutationRates() {
+		
+		// TODO - Initial log message
+		
+		List<GeneticAlgorithm> algorithms = GAFactory.getMutationRates(0.00, 1.00, 0.05);	
+		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
+		
+		for (GeneticAlgorithm ga : results.keySet()) {
+			
+			double average = calculateFinalDistanceAverage(results.get(ga));
 			logMutationRate(ga.getParameters().getMutationRate());
 			logAverageFinalDistance(average);
 			
@@ -74,8 +74,47 @@ public class GATestManager {
 		
 	}
 	
+	private Map<GeneticAlgorithm, List<GAResult>> testAlgorithms(List<GeneticAlgorithm> algorithms) {
+	
+		Map<GeneticAlgorithm, List<GAResult>> results = new LinkedHashMap<GeneticAlgorithm, List<GAResult>>();
+		algorithms.forEach(alg -> {
+			
+			for (int i=0; i<NUM_TRIALS; i++) {
+			
+				GAManager gaManager = new GAManager(alg, listeners, true);
+				
+				int initialDistance = gaManager.getCurrentDistance();				
+				gaManager.run();				
+				int finalDistance = gaManager.getCurrentDistance();
+				
+				if (!results.containsKey(alg)) results.put(alg, new ArrayList<GAResult>());
+				results.get(alg).add(new GAResult(gaManager.getParameters(), initialDistance, finalDistance));
+			
+			}
+			
+		});
+		
+		return results;
+		
+	}
+	
+	private double calculateFinalDistanceAverage(List<GAResult> results) {
+		
+		double sum = 0;
+		for (int i=0; i<NUM_TRIALS; i++) {
+			sum += results.get(i).getFinalDistance();
+		}
+		
+		return sum / (double) NUM_TRIALS;
+		
+	}
+	
+	private void logGenerations(int generations) {
+		log("Generations: " + generations);
+	}
+	
 	private void logMutationRate(double mutationRate) {
-		log("Mutation Rate: " + mutationRate);
+		log(String.format("Mutation Rate: %.2f", mutationRate));
 	}
 	
 	private void logAverageFinalDistance(double average) {

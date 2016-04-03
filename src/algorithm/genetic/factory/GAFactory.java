@@ -12,20 +12,31 @@ public class GAFactory {
 		return new GeneticAlgorithm(new GAParameters());
 	}
 	
-	public static List<GeneticAlgorithm> getAllMutationRates() {
+	public static List<GeneticAlgorithm> getMutationRates(double min, double max, double increment) {
 		
 		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
 		
-		int minRate = 5;
-		int maxRate = 95;
-		int increment = 10;
-		
-		for (int i=minRate; i<=maxRate; i += increment) {
-			result.add(new GeneticAlgorithm(new GAParameters((double) i / 100)));			
+		for (double i=min; i<=max; i += increment) {
+			result.add(new GeneticAlgorithm(new GAParameters(i)));			
 		}
 		
 		return result;
 		
+	}
+
+	public static List<GeneticAlgorithm> getGenerations(int min, int max, int increment) {
+		
+		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
+		
+		for (int i=min; i<=max; i += increment) {
+			
+			GAParameters params = new GAParameters();
+			params.setNumGenerations(i);
+			result.add(new GeneticAlgorithm(params));		
+			
+		}
+		
+		return result;
 	}
 
 }

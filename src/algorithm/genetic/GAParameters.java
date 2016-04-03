@@ -51,5 +51,9 @@ public class GAParameters {
 	public int getNumGenerations() {
 		return numGenerations;
 	}
+	
+	public void setNumGenerations(int num) {
+		numGenerations = num;
+	}
 
 }
