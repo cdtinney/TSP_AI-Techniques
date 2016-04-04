@@ -43,9 +43,10 @@ public class GATestManager {
 	
 	public void testPopulationSizes() {
 
-		// TODO - Initial log message
+		int min = 5, max = 100, increment = 1;
+		log(String.format("Testing Population Sizes (min=%d, max=%d, increment=%d)", min, max, increment));
 
-		List<GeneticAlgorithm> algorithms = GAFactory.getPopulationSizes(5, 100, 1);
+		List<GeneticAlgorithm> algorithms = GAFactory.getPopulationSizes(min, max, increment);
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
 		
 		for (GeneticAlgorithm ga : results.keySet()) {
@@ -60,7 +61,7 @@ public class GATestManager {
 	
 	public void testCrossoverMethods() {
 
-		// TODO - Initial log message
+		log("Testing Crossover Methods");
 
 		List<GeneticAlgorithm> algorithms = GAFactory.getCrossoverMethods();
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
@@ -77,7 +78,8 @@ public class GATestManager {
 
 	public void testNumGenerations() {
 
-		// TODO - Initial log message
+		int min = 100, max = 1000, increment = 100;
+		log(String.format("Testing Num Generations (min=%d, max=%d, increment=%d)", min, max, increment));
 
 		List<GeneticAlgorithm> algorithms = GAFactory.getGenerations(100, 1000, 100);
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
@@ -93,8 +95,9 @@ public class GATestManager {
 	}
 	
 	public void testMutationRates() {
-		
-		// TODO - Initial log message
+
+		double min = 0.0, max = 1.00, increment = 0.05;
+		log(String.format("Testing Mutation Rates (min=%f, max=%f, increment=%f)", min, max, increment));
 		
 		List<GeneticAlgorithm> algorithms = GAFactory.getMutationRates(0.00, 1.00, 0.05);	
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
@@ -161,7 +164,7 @@ public class GATestManager {
 	}
 	
 	private void logAverageFinalDistance(double average) {
-		log(String.format("\tAverage Final Distance: %.4f ", average));
+		log(String.format("\tAverage Final Distance: %.2f ", average));
 	}
 
 	@SuppressWarnings("unused")
