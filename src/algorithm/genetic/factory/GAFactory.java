@@ -7,6 +7,8 @@ import algorithm.genetic.GAParameters;
 import algorithm.genetic.GeneticAlgorithm;
 import algorithm.genetic.crossover.CrossoverMethod;
 import algorithm.genetic.crossover.TwoPointCrossover;
+import algorithm.genetic.mutation.MutationMethod;
+import algorithm.genetic.mutation.SwapMutation;
 
 public class GAFactory {
 	
@@ -67,6 +69,32 @@ public class GAFactory {
 		
 	}
 
+	public static List<GeneticAlgorithm> getMutationMethods() {
+		
+		List<Class<? extends MutationMethod>> classes = new ArrayList<Class<? extends MutationMethod>>();
+		classes.add(SwapMutation.class);
+
+		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
+		for (Class<? extends MutationMethod> clazz : classes) {
+			
+			GAParameters params = new GAParameters();
+			
+			try {
+				params.setMutationMethod(clazz.newInstance());
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			}
+			
+			result.add(new GeneticAlgorithm(params));	
+			
+		}
+		
+		return result;
+		
+	}
+
 	public static List<GeneticAlgorithm> getPopulationSizes(int min, int max, int increment) {
 		
 		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
@@ -75,6 +103,22 @@ public class GAFactory {
 			
 			GAParameters params = new GAParameters();
 			params.setPopulationSize(i);
+			result.add(new GeneticAlgorithm(params));		
+			
+		}
+		
+		return result;
+		
+	}
+
+	public static List<GeneticAlgorithm> getGroupSizes(int min, int max, int increment) {
+		
+		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
+		
+		for (int i=min; i<=max; i += increment) {
+			
+			GAParameters params = new GAParameters();
+			params.setGroupSize(i);
 			result.add(new GeneticAlgorithm(params));		
 			
 		}

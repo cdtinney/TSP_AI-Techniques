@@ -4,7 +4,7 @@ import algorithm.genetic.GAParameters;
 import model.City;
 import model.Tour;
 
-public class SwapMutationMethod implements MutationMethod {
+public class SwapMutation implements MutationMethod {
 
 	@Override
 	public void mutate(GAParameters parameters, Tour tour) {

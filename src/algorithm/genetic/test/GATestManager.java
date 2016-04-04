@@ -11,6 +11,7 @@ import algorithm.genetic.GAParameters;
 import algorithm.genetic.GeneticAlgorithm;
 import algorithm.genetic.crossover.CrossoverMethod;
 import algorithm.genetic.factory.GAFactory;
+import algorithm.genetic.mutation.MutationMethod;
 
 public class GATestManager {
 	
@@ -30,18 +31,40 @@ public class GATestManager {
 //		testMutationRates();
 //		testNumGenerations();
 //		testCrossoverMethods();		
-		testPopulationSizes();
+		testMutationMethods();
+//		testPopulationSizes();
+//		testGroupSizes();
 		
 	}
 
-	public void testDefault() {
+	private void testDefault() {
 		
 		GAManager gaManager = new GAManager(GAFactory.getDefault(), listeners, true);
 		gaManager.run();
 		
 	}
 	
-	public void testPopulationSizes() {
+	private void testGroupSizes() {
+
+		int min = 5, max = 20, increment = 1;
+		log(String.format("Testing Group Sizes (min=%d, max=%d, increment=%d)", min, max, increment));
+
+		List<GeneticAlgorithm> algorithms = GAFactory.getGroupSizes(min, max, increment);
+		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
+		
+		for (GeneticAlgorithm ga : results.keySet()) {
+			
+			double average = calculateFinalDistanceAverage(results.get(ga));
+			logGroupSize(ga.getParameters().getGroupSize());
+			logAverageFinalDistance(average);
+			
+		}
+		
+		
+		
+	}
+
+	private void testPopulationSizes() {
 
 		int min = 5, max = 100, increment = 1;
 		log(String.format("Testing Population Sizes (min=%d, max=%d, increment=%d)", min, max, increment));
@@ -59,7 +82,7 @@ public class GATestManager {
 		
 	}
 	
-	public void testCrossoverMethods() {
+	private void testCrossoverMethods() {
 
 		log("Testing Crossover Methods");
 
@@ -76,7 +99,24 @@ public class GATestManager {
 		
 	}
 
-	public void testNumGenerations() {
+	private void testMutationMethods() {
+
+		log("Testing Mutation Methods");
+
+		List<GeneticAlgorithm> algorithms = GAFactory.getMutationMethods();
+		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
+		
+		for (GeneticAlgorithm ga : results.keySet()) {
+			
+			double average = calculateFinalDistanceAverage(results.get(ga));
+			logMutationMethod(ga.getParameters().getMutationMethod());
+			logAverageFinalDistance(average);
+			
+		}
+		
+	}
+
+	private void testNumGenerations() {
 
 		int min = 100, max = 1000, increment = 100;
 		log(String.format("Testing Num Generations (min=%d, max=%d, increment=%d)", min, max, increment));
@@ -94,7 +134,7 @@ public class GATestManager {
 		
 	}
 	
-	public void testMutationRates() {
+	private void testMutationRates() {
 
 		double min = 0.0, max = 1.00, increment = 0.05;
 		log(String.format("Testing Mutation Rates (min=%f, max=%f, increment=%f)", min, max, increment));
@@ -158,9 +198,17 @@ public class GATestManager {
 	private void logCrossoverMethod(CrossoverMethod crossoverMethod) {
 		log("Crossover Method: " + crossoverMethod.getClass().getSimpleName());
 	}
+
+	private void logMutationMethod(MutationMethod mutationMethod) {
+		log("Mutation Method: " + mutationMethod.getClass().getSimpleName());
+	}
 	
 	private void logPopulationSize(int size) {
 		log("Population size: " + size);
+	}
+	
+	private void logGroupSize(int groupSize) {
+		log("Group size: " + groupSize);
 	}
 	
 	private void logAverageFinalDistance(double average) {

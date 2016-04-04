@@ -10,7 +10,7 @@ public class GAParameters {
 	private static final double 	MUTATION_RATE_DEFAULT 		= 0.015;
 	private static final boolean 	ELITISM_DEFAULT				= true;
 	private static final int		NUM_GENERATIONS_DEFAULT		= 100;
-	private static final int 		POPULATION_SIZE_DEFAULT 	= 20;
+	private static final int 		POPULATION_SIZE_DEFAULT 	= 35;
 	private static final int 		GROUP_SIZE_DEFAULT 			= 5;
 	
 	private double mutationRate 	= MUTATION_RATE_DEFAULT;
