@@ -6,7 +6,7 @@ import java.util.List;
 import algorithm.genetic.GAParameters;
 import algorithm.genetic.GeneticAlgorithm;
 import algorithm.genetic.crossover.CrossoverMethod;
-import algorithm.genetic.crossover.OrderedCrossoverMethod;
+import algorithm.genetic.crossover.TwoPointCrossover;
 
 public class GAFactory {
 	
@@ -44,7 +44,7 @@ public class GAFactory {
 	public static List<GeneticAlgorithm> getCrossoverMethods() {
 		
 		List<Class<? extends CrossoverMethod>> classes = new ArrayList<Class<? extends CrossoverMethod>>();
-		classes.add(OrderedCrossoverMethod.class);
+		classes.add(TwoPointCrossover.class);
 
 		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
 		for (Class<? extends CrossoverMethod> clazz : classes) {
@@ -60,6 +60,22 @@ public class GAFactory {
 			}
 			
 			result.add(new GeneticAlgorithm(params));	
+			
+		}
+		
+		return result;
+		
+	}
+
+	public static List<GeneticAlgorithm> getPopulationSizes(int min, int max, int increment) {
+		
+		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
+		
+		for (int i=min; i<=max; i += increment) {
+			
+			GAParameters params = new GAParameters();
+			params.setPopulationSize(i);
+			result.add(new GeneticAlgorithm(params));		
 			
 		}
 		

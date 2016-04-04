@@ -3,7 +3,7 @@ package algorithm.genetic.crossover;
 import model.City;
 import model.Tour;
 
-public class OrderedCrossoverMethod implements CrossoverMethod {
+public class TwoPointCrossover implements CrossoverMethod {
 
 	@Override
 	public Tour crossover(Tour parent1, Tour parent2) {

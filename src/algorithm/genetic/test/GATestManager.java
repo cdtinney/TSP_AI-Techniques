@@ -11,7 +11,6 @@ import algorithm.genetic.GAParameters;
 import algorithm.genetic.GeneticAlgorithm;
 import algorithm.genetic.crossover.CrossoverMethod;
 import algorithm.genetic.factory.GAFactory;
-import model.Population;
 
 public class GATestManager {
 	
@@ -30,7 +29,8 @@ public class GATestManager {
 //		testDefault();
 //		testMutationRates();
 //		testNumGenerations();
-		testCrossoverMethods();		
+//		testCrossoverMethods();		
+		testPopulationSizes();
 		
 	}
 
@@ -38,6 +38,23 @@ public class GATestManager {
 		
 		GAManager gaManager = new GAManager(GAFactory.getDefault(), listeners, true);
 		gaManager.run();
+		
+	}
+	
+	public void testPopulationSizes() {
+
+		// TODO - Initial log message
+
+		List<GeneticAlgorithm> algorithms = GAFactory.getPopulationSizes(5, 100, 1);
+		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
+		
+		for (GeneticAlgorithm ga : results.keySet()) {
+			
+			double average = calculateFinalDistanceAverage(results.get(ga));
+			logPopulationSize(ga.getParameters().getPopulationSize());
+			logAverageFinalDistance(average);
+			
+		}
 		
 	}
 	
@@ -135,12 +152,16 @@ public class GATestManager {
 		log(String.format("Mutation Rate: %.2f", mutationRate));
 	}
 	
-	private void logAverageFinalDistance(double average) {
-		log("\tAverage Final Distance: " + average);
-	}
-	
 	private void logCrossoverMethod(CrossoverMethod crossoverMethod) {
 		log("Crossover Method: " + crossoverMethod.getClass().getSimpleName());
+	}
+	
+	private void logPopulationSize(int size) {
+		log("Population size: " + size);
+	}
+	
+	private void logAverageFinalDistance(double average) {
+		log(String.format("\tAverage Final Distance: %.4f ", average));
 	}
 
 	@SuppressWarnings("unused")

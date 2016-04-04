@@ -37,7 +37,7 @@ public class GAManager implements ObservableAlgorithm {
 	public void init() {
 		
 		cities = CityFactory.generate();
-		currentPopulation = PopulationFactory.generate(cities);
+		currentPopulation = PopulationFactory.generate(geneticAlgorithm.getParameters().getPopulationSize(), cities);
 		
 		notifyListeners();
 		
