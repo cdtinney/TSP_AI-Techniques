@@ -2,8 +2,7 @@ package algorithm.annealing.temperature;
 
 public interface TemperatureSchedule {
 	
-	public double getCurrentTemperature();
-	public void cool();
+	public double getTemperature(int iteration);
 	public boolean isCool();
 
 }

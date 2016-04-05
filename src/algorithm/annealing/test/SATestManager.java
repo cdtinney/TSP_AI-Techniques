@@ -16,13 +16,14 @@ public class SATestManager {
 	
 	// Thread delay between iterations (ms)
 	private static final int DELAY 			= 10;
-	private static final boolean USE_DELAY 	= true;
+	private static final boolean USE_DELAY 	= false;
 	
 	// Store listeners so they can be added to new GAManager instances
 	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
 
 	public void test() {
 		
+		log("Number of trials: " + NUM_TRIALS);
 		testDefault();
 		
 	}
@@ -63,9 +64,10 @@ public class SATestManager {
 	
 	private void runSingleAlgorithm(SimulatedAnnealing sa) {
 
+		int iteration = 0;
 		while (!sa.isFinished()) {
 			
-			sa.iterate();
+			sa.iterate(iteration++);
 			if (USE_DELAY) {
 				sleep();
 			}
