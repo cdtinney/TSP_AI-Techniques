@@ -8,7 +8,7 @@ import algorithm.ObservableAlgorithm;
 import algorithm.RandomManager;
 import algorithm.annealing.neighbor.NeighborGenerator;
 import algorithm.annealing.temperature.TemperatureSchedule;
-import algorithm.genetic.factory.CityFactory;
+import model.CityFactory;
 import model.Tour;
 
 public class SimulatedAnnealing implements ObservableAlgorithm { 
@@ -68,6 +68,11 @@ public class SimulatedAnnealing implements ObservableAlgorithm {
 	public boolean isFinished() {
 		return saParameters.getTemperatureSchedule().isCool();
 	}
+
+	@Override
+	public void addListeners(List<AlgorithmListener> listeners) {
+		this.listeners.addAll(listeners);
+	}
 	
 	private void setBestTour(Tour tour) {
 		this.bestTour = tour;
@@ -76,11 +81,6 @@ public class SimulatedAnnealing implements ObservableAlgorithm {
 	
 	private void notifyListeners() {
 		listeners.stream().forEach(l -> l.onChange(bestTour));
-	}
-
-	@Override
-	public void addListeners(List<AlgorithmListener> listeners) {
-		this.listeners.addAll(listeners);
 	}
 	
 	private static double calculateAcceptance(int currentDistance, int newDistance, double currentTemperature) {

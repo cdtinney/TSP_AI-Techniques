@@ -1,14 +1,15 @@
 package algorithm.annealing;
 
 import algorithm.annealing.neighbor.NeighborGenerator;
-import algorithm.annealing.neighbor.NeighborSwap;
-import algorithm.annealing.temperature.ExponentialSchedule;
+import algorithm.annealing.neighbor.NeighborGeneratorFactory;
 import algorithm.annealing.temperature.TemperatureSchedule;
+import algorithm.annealing.temperature.TemperatureScheduleFactory;
+import algorithm.genetic.mutation.MutationMethod;
 
 public class SAParameters {
 	
-	private NeighborGenerator neighborGenerator = new NeighborSwap();
-	private TemperatureSchedule temperatureSchedule = new ExponentialSchedule();
+	private NeighborGenerator neighborGenerator = NeighborGeneratorFactory.getDefault();
+	private TemperatureSchedule temperatureSchedule = TemperatureScheduleFactory.getDefault();
 	
 	public SAParameters() {
 		// Empty constructor
@@ -20,6 +21,10 @@ public class SAParameters {
 	
 	public TemperatureSchedule getTemperatureSchedule() {
 		return temperatureSchedule;
+	}
+
+	public void setTemperatureSchedule(TemperatureSchedule temperatureSchedule) {
+		this.temperatureSchedule = temperatureSchedule;
 	}
 
 }

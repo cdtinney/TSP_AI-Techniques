@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import model.City;
+import model.CityFactory;
 import model.Population;
 import model.Tour;
 

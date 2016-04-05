@@ -1,9 +1,7 @@
-package algorithm.genetic.factory;
+package model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import model.City;
 
 public class CityFactory {
 	

@@ -8,6 +8,7 @@ import java.util.Map;
 import algorithm.AlgorithmListener;
 import algorithm.annealing.SimulatedAnnealing;
 import algorithm.annealing.factory.SAFactory;
+import algorithm.annealing.temperature.TemperatureSchedule;
 
 public class SATestManager {
 	
@@ -24,39 +25,66 @@ public class SATestManager {
 	public void test() {
 		
 		log("Number of trials: " + NUM_TRIALS);
-		testDefault();
+		//testDefault();
+		testTemperatureSchedules();
 		
 	}
 	
 	private void testDefault() {
 
-		log("Test Default");
+		log("Test - Default\n");
 
-		Map<SimulatedAnnealing, List<SAResult>> results = testAlgorithm(SAFactory.getDefault());		
+		List<SAResult> results = testAlgorithm(SAFactory.getDefault());
+		double average = calculateFinalDistanceAverage(results);
+		logAverageFinalDistance(average);		
+		
+	}
+	
+	private void testTemperatureSchedules() {
+
+		log("Test - Temperature Schedules\n");
+
+		Map<SimulatedAnnealing, List<SAResult>> results = testAlgorithms(SAFactory.getTemperatureSchedules());		
 		for (SimulatedAnnealing sa : results.keySet()) {
 			
 			double average = calculateFinalDistanceAverage(results.get(sa));
+			logTemperatureSchedule(sa.getParameters().getTemperatureSchedule());
 			logAverageFinalDistance(average);
 			
 		}
 		
 	}
+
+	private Map<SimulatedAnnealing, List<SAResult>> testAlgorithms(List<SimulatedAnnealing> algorithms) {
 	
-	private Map<SimulatedAnnealing, List<SAResult>> testAlgorithm(SimulatedAnnealing saAlgorithm) {
+		Map<SimulatedAnnealing, List<SAResult>> results = new LinkedHashMap<SimulatedAnnealing, List<SAResult>>();	
+		algorithms.stream().forEach(alg -> {
+			
+			List<SAResult> singleAlgResults = testAlgorithm(alg);
+
+			if (!results.containsKey(alg)) results.put(alg, new ArrayList<SAResult>());
+			results.get(alg).addAll(singleAlgResults);
+			
+		});
+		
+		return results;
+		
+	}
+	
+	private List<SAResult> testAlgorithm(SimulatedAnnealing saAlgorithm) {
 	
 		saAlgorithm.addListeners(listeners);
-		Map<SimulatedAnnealing, List<SAResult>> results = new LinkedHashMap<SimulatedAnnealing, List<SAResult>>();
+		
+		List<SAResult> results = new ArrayList<SAResult>();	
+		for (int i=0; i<NUM_TRIALS; i++) {
 			
-			for (int i=0; i<NUM_TRIALS; i++) {
-				
-				int initialDistance = saAlgorithm.getCurrentDistance();			
-				runSingleAlgorithm(saAlgorithm);				
-				int finalDistance = saAlgorithm.getCurrentDistance();
-				
-				if (!results.containsKey(saAlgorithm)) results.put(saAlgorithm, new ArrayList<SAResult>());
-				results.get(saAlgorithm).add(new SAResult(saAlgorithm.getParameters(), initialDistance, finalDistance));
+			int initialDistance = saAlgorithm.getCurrentDistance();			
+			runSingleAlgorithm(saAlgorithm);				
+			int finalDistance = saAlgorithm.getCurrentDistance();
 			
-			}
+			results.add(new SAResult(saAlgorithm.getParameters(), initialDistance, finalDistance));
+		
+		}
 		
 		return results;
 		
@@ -85,6 +113,10 @@ public class SATestManager {
 		
 		return sum / (double) NUM_TRIALS;
 		
+	}
+	
+	private void logTemperatureSchedule(TemperatureSchedule temperatureSchedule) {
+		log("Temperature Schedule: " + temperatureSchedule.getClass().getSimpleName());
 	}
 	
 	private void logAverageFinalDistance(double average) {
