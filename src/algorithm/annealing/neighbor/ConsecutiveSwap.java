@@ -1,18 +1,18 @@
 package algorithm.annealing.neighbor;
 
-import algorithm.RandomManager;
+import algorithm.RandomNumber;
 import model.City;
 import model.Tour;
 
-public class NeighborSwap implements NeighborGenerator {
+public class ConsecutiveSwap implements NeighborGenerator {
 
 	@Override
 	public Tour generate(Tour tour) {
     	
         Tour neighbor = new Tour(tour);
 
-        int posA = (int) (neighbor.getSize() * RandomManager.random());
-        int posB = (int) (neighbor.getSize() * RandomManager.random());
+        int posA = (int) ((neighbor.getSize() - 1) * RandomNumber.random());
+        int posB = posA + 1;
         
         City cityA = neighbor.getCity(posA);
         City cityB = neighbor.getCity(posB);

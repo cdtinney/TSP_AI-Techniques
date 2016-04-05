@@ -1,7 +1,7 @@
 package controller;
 
 import algorithm.annealing.SimulatedAnnealing;
-import algorithm.annealing.neighbor.NeighborSwap;
+import algorithm.annealing.neighbor.RandomSwap;
 import algorithm.annealing.test.SATestManager;
 import algorithm.genetic.test.GATestManager;
 import application.MainApplication;

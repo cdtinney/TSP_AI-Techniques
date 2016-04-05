@@ -5,7 +5,7 @@ import java.util.List;
 
 import algorithm.AlgorithmListener;
 import algorithm.ObservableAlgorithm;
-import algorithm.RandomManager;
+import algorithm.RandomNumber;
 import algorithm.annealing.neighbor.NeighborGenerator;
 import algorithm.annealing.temperature.TemperatureSchedule;
 import model.CityFactory;
@@ -46,7 +46,7 @@ public class SimulatedAnnealing implements ObservableAlgorithm {
         // Decide if we should accept the neighbor as the current best
         double currentTemperature = schedule.getTemperature(iteration);
         double acceptance = calculateAcceptance(currentEnergy, neighbourEnergy, currentTemperature);
-        if (acceptance == 1.0 || acceptance > RandomManager.random()) {
+        if (acceptance == 1.0 || acceptance > RandomNumber.random()) {
             currentSolution = new Tour(neighbour);
         }
 

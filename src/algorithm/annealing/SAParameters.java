@@ -4,7 +4,6 @@ import algorithm.annealing.neighbor.NeighborGenerator;
 import algorithm.annealing.neighbor.NeighborGeneratorFactory;
 import algorithm.annealing.temperature.TemperatureSchedule;
 import algorithm.annealing.temperature.TemperatureScheduleFactory;
-import algorithm.genetic.mutation.MutationMethod;
 
 public class SAParameters {
 	
@@ -17,6 +16,10 @@ public class SAParameters {
 
 	public NeighborGenerator getNeighborGenerator() {
 		return neighborGenerator;
+	}
+
+	public void setNeighborGenerator(NeighborGenerator neighborGenerator) {
+		this.neighborGenerator = neighborGenerator;
 	}
 	
 	public TemperatureSchedule getTemperatureSchedule() {

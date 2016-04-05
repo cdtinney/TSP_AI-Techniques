@@ -8,6 +8,7 @@ import java.util.Map;
 import algorithm.AlgorithmListener;
 import algorithm.annealing.SimulatedAnnealing;
 import algorithm.annealing.factory.SAFactory;
+import algorithm.annealing.neighbor.NeighborGenerator;
 import algorithm.annealing.temperature.TemperatureSchedule;
 
 public class SATestManager {
@@ -25,11 +26,12 @@ public class SATestManager {
 	public void test() {
 		
 		log("Number of trials: " + NUM_TRIALS);
-		//testDefault();
+//		testDefault();
 		testTemperatureSchedules();
+//		testNeighborGenerators();
 		
 	}
-	
+
 	private void testDefault() {
 
 		log("Test - Default\n");
@@ -53,6 +55,25 @@ public class SATestManager {
 			
 		}
 		
+	}
+	
+	private void testNeighborGenerators() {
+
+		log("Test - Neighbor Generators\n");
+
+		Map<SimulatedAnnealing, List<SAResult>> results = testAlgorithms(SAFactory.getNeighborGenerators());		
+		for (SimulatedAnnealing sa : results.keySet()) {
+			
+			double average = calculateFinalDistanceAverage(results.get(sa));
+			logNeighborGenerator(sa.getParameters().getNeighborGenerator());
+			logAverageFinalDistance(average);
+			
+		}
+		
+	}
+
+	private void logNeighborGenerator(NeighborGenerator neighborGenerator) {
+		log("Neighbor Generator: " + neighborGenerator.getClass().getSimpleName());
 	}
 
 	private Map<SimulatedAnnealing, List<SAResult>> testAlgorithms(List<SimulatedAnnealing> algorithms) {
