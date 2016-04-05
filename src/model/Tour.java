@@ -9,7 +9,6 @@ public class Tour {
 	private List<City> cities;
 	private int size;
 	
-	// GA parameters
 	private double fitness = 0;
 	private int distance = 0;
 	
@@ -26,14 +25,7 @@ public class Tour {
 	@SuppressWarnings("unchecked")
 	public Tour(Tour other) {
 		this(other.getSize());
-		
-
-        this.cities = (List<City>) ((ArrayList<City>) other.getCities()).clone();
-		
-//		for (int i=0; i<size; i++) {
-//			setCity(i, new City(other.getCity(i).getX(), other.getCity(i).getY()));
-//		}
-		
+        this.cities = (List<City>) ((ArrayList<City>) other.getCities()).clone();		
 	}
 	
 	public int getSize() {

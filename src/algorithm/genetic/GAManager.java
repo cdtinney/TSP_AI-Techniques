@@ -77,19 +77,10 @@ public class GAManager implements ObservableAlgorithm {
 	private void notifyListeners() {
 		listeners.stream().forEach(l -> l.onChange(currentPopulation.getFittest()));
 	}
-
-	@Override
-	public void addListener(AlgorithmListener listener) {
-		listeners.add(listener);
-	}
 	
+	@Override
 	public void addListeners(List<AlgorithmListener> listeners) {
 		this.listeners.addAll(listeners);
-	}
-
-	@Override
-	public void removeListener(AlgorithmListener listener) {
-		listeners.remove(listener);
 	}
 
 }

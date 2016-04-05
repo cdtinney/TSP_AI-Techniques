@@ -1,8 +1,9 @@
 package algorithm;
 
+import java.util.List;
+
 public interface ObservableAlgorithm {
 	
-	public void addListener(AlgorithmListener listener);
-	public void removeListener(AlgorithmListener listener);
+	public void addListeners(List<AlgorithmListener> listener);
 
 }

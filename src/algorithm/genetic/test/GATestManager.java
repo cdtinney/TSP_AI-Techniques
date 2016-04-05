@@ -20,10 +20,6 @@ public class GATestManager {
 	
 	// Store listeners so they can be added to new GAManager instances
 	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
-
-	public void addListener(AlgorithmListener listener) {
-		listeners.add(listener);
-	}
 	
 	public void test() {
 		
@@ -35,6 +31,10 @@ public class GATestManager {
 //		testPopulationSizes();
 //		testGroupSizes();
 		
+	}
+
+	public void addListener(AlgorithmListener listener) {
+		listeners.add(listener);
 	}
 
 	private void testDefault() {
