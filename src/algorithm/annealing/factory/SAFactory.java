@@ -10,7 +10,6 @@ import algorithm.annealing.neighbor.NeighborGenerator;
 import algorithm.annealing.neighbor.RandomSwap;
 import algorithm.annealing.temperature.ExponentialSchedule;
 import algorithm.annealing.temperature.LinearSchedule;
-import algorithm.annealing.temperature.LogSchedule;
 import algorithm.annealing.temperature.TemperatureSchedule;
 
 public class SAFactory {

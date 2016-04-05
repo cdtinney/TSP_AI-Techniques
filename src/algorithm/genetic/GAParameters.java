@@ -2,8 +2,8 @@ package algorithm.genetic;
 
 import algorithm.genetic.crossover.CrossoverMethod;
 import algorithm.genetic.crossover.CrossoverMethodFactory;
-import algorithm.genetic.mutation.MutationMethod;
 import algorithm.genetic.mutation.MutationFactory;
+import algorithm.genetic.mutation.MutationMethod;
 
 public class GAParameters {
 	
