@@ -17,7 +17,6 @@ public class GAManager implements ObservableAlgorithm {
 	private static final boolean USE_DELAY 	= false;
 	
 	// Model information
-	private List<City> cities;
 	private Population currentPopulation;
 	private GeneticAlgorithm geneticAlgorithm;
 	
@@ -36,8 +35,7 @@ public class GAManager implements ObservableAlgorithm {
 	
 	public void init() {
 		
-		cities = CityFactory.generate();
-		currentPopulation = PopulationFactory.generate(geneticAlgorithm.getParameters().getPopulationSize(), cities);
+		currentPopulation = PopulationFactory.generate(geneticAlgorithm.getParameters().getPopulationSize(), 20);
 		
 		notifyListeners();
 		
@@ -64,14 +62,6 @@ public class GAManager implements ObservableAlgorithm {
             
         }
 		
-	}
-
-	public List<City> getCities() {
-		return cities;
-	}
-	
-	public Population getCurrentPopulation() {
-		return currentPopulation;
 	}
 	
 	private void sleep() {

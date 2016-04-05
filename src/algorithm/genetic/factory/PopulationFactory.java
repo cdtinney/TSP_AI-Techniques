@@ -1,6 +1,7 @@
 package algorithm.genetic.factory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import model.City;
@@ -9,9 +10,10 @@ import model.Tour;
 
 public class PopulationFactory {
 	
-	public static Population generate(int num, List<City> cities) {
+	public static Population generate(int numTours, int numCities) {
 		
-        return new Population(generateRandom(num, cities));		
+		List<City> cities = CityFactory.generateCircle(numCities);
+        return new Population(generateRandom(numTours, cities));		
 		
 	}
 	
@@ -23,7 +25,7 @@ public class PopulationFactory {
 			List<City> randomCities = new ArrayList<City>(cities);
 			
 			// TODO - Uncomment if not testing
-			//Collections.shuffle(randomCities);
+			Collections.shuffle(randomCities);
 			
 			result.add(new Tour(randomCities));
 			

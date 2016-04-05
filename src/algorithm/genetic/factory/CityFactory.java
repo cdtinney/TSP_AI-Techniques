@@ -53,5 +53,23 @@ public class CityFactory {
 		return cities;
 
 	}
+	
+	public static List<City> generateCircle(int numCities) {
+
+		int center = 100;
+		int radius = 75;
+		
+		List<City> cities = new ArrayList<City>();
+		for (int i=0; i<numCities; i++) {
+			
+		    double x = (center + radius * Math.cos(2 * Math.PI * i / numCities));
+		    double y = (center + radius * Math.sin(2 * Math.PI * i / numCities));
+			City city = new City((int) x, (int) y);
+			cities.add(city);
+		}
+		
+		return cities;
+
+	}
 
 }

@@ -27,11 +27,11 @@ public class GATestManager {
 	
 	public void test() {
 		
-//		testDefault();
+		testDefault();
 //		testMutationRates();
 //		testNumGenerations();
 //		testCrossoverMethods();		
-		testMutationMethods();
+//		testMutationMethods();
 //		testPopulationSizes();
 //		testGroupSizes();
 		
@@ -49,7 +49,7 @@ public class GATestManager {
 		int min = 5, max = 20, increment = 1;
 		log(String.format("Testing Group Sizes (min=%d, max=%d, increment=%d)", min, max, increment));
 
-		List<GeneticAlgorithm> algorithms = GAFactory.getGroupSizes(min, max, increment);
+		List<GeneticAlgorithm> algorithms = GAFactory.getGroupSizes(min, max, increment);		
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
 		
 		for (GeneticAlgorithm ga : results.keySet()) {
