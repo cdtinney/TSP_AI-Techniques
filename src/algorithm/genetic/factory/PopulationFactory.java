@@ -10,9 +10,11 @@ import model.Tour;
 
 public class PopulationFactory {
 	
+	private static final boolean TEST = true;
+	
 	public static Population generate(int numTours, int numCities) {
 		
-		List<City> cities = CityFactory.generateCircle(numCities);
+		List<City> cities = CityFactory.generate();
         return new Population(generateRandom(numTours, cities));		
 		
 	}
@@ -24,8 +26,11 @@ public class PopulationFactory {
 			
 			List<City> randomCities = new ArrayList<City>(cities);
 			
-			// TODO - Uncomment if not testing
-			Collections.shuffle(randomCities);
+			// If we're not testing, don't shuffle the order of the cities. This will fix the 
+			// initial population for all instances.
+			if (!TEST) {
+				Collections.shuffle(randomCities);
+			}
 			
 			result.add(new Tour(randomCities));
 			

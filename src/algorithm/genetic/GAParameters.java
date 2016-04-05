@@ -3,7 +3,7 @@ package algorithm.genetic;
 import algorithm.genetic.crossover.CrossoverMethod;
 import algorithm.genetic.crossover.CrossoverMethodFactory;
 import algorithm.genetic.mutation.MutationMethod;
-import algorithm.genetic.mutation.MutationMethodFactory;
+import algorithm.genetic.mutation.MutationFactory;
 
 public class GAParameters {
 	
@@ -19,7 +19,7 @@ public class GAParameters {
 	private int populationSize 		= POPULATION_SIZE_DEFAULT;
 	private int 	groupSize 		= GROUP_SIZE_DEFAULT;
 	
-	private MutationMethod mutationMethod 	= MutationMethodFactory.getDefault();
+	private MutationMethod mutationMethod 	= MutationFactory.getDefault();
 	private CrossoverMethod crossoverMethod = CrossoverMethodFactory.getDefault();
 	
 	public GAParameters() {

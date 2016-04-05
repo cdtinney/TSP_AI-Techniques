@@ -1,6 +1,6 @@
 package algorithm.genetic.mutation;
 
-public class MutationMethodFactory {
+public class MutationFactory {
 	
 	public static MutationMethod getDefault() {
 		return new SwapMutation();

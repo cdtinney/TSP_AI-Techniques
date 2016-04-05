@@ -27,11 +27,11 @@ public class GATestManager {
 	
 	public void test() {
 		
-		testDefault();
+//		testDefault();
 //		testMutationRates();
 //		testNumGenerations();
 //		testCrossoverMethods();		
-//		testMutationMethods();
+		testMutationMethods();
 //		testPopulationSizes();
 //		testGroupSizes();
 		

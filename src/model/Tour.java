@@ -23,12 +23,16 @@ public class Tour {
 		this.cities = tour;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Tour(Tour other) {
 		this(other.getSize());
 		
-		for (int i=0; i<size; i++) {
-			setCity(i, new City(other.getCity(i).getX(), other.getCity(i).getY()));
-		}
+
+        this.cities = (List<City>) ((ArrayList<City>) other.getCities()).clone();
+		
+//		for (int i=0; i<size; i++) {
+//			setCity(i, new City(other.getCity(i).getX(), other.getCity(i).getY()));
+//		}
 		
 	}
 	

@@ -5,9 +5,7 @@ import java.util.List;
 
 import algorithm.AlgorithmListener;
 import algorithm.ObservableAlgorithm;
-import algorithm.genetic.factory.CityFactory;
 import algorithm.genetic.factory.PopulationFactory;
-import model.City;
 import model.Population;
 
 public class GAManager implements ObservableAlgorithm {
