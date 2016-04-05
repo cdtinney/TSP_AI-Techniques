@@ -8,7 +8,9 @@ import algorithm.genetic.GeneticAlgorithm;
 import algorithm.genetic.crossover.CrossoverMethod;
 import algorithm.genetic.crossover.TwoPointCrossover;
 import algorithm.genetic.mutation.MutationMethod;
+import algorithm.genetic.mutation.ReverseSubsetMutation;
 import algorithm.genetic.mutation.SwapMutation;
+import algorithm.genetic.mutation.SwapOnlyImprovingMutation;
 
 public class GAFactory {
 	
@@ -73,6 +75,8 @@ public class GAFactory {
 		
 		List<Class<? extends MutationMethod>> classes = new ArrayList<Class<? extends MutationMethod>>();
 		classes.add(SwapMutation.class);
+		classes.add(SwapOnlyImprovingMutation.class);
+		classes.add(ReverseSubsetMutation.class);
 
 		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
 		for (Class<? extends MutationMethod> clazz : classes) {

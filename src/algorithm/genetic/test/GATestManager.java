@@ -16,7 +16,7 @@ import algorithm.genetic.mutation.MutationMethod;
 public class GATestManager {
 	
 	// Number of trials to run to determine an average
-	private final int NUM_TRIALS = 10;
+	private final int NUM_TRIALS = 20;
 	
 	// Store listeners so they can be added to new GAManager instances
 	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
@@ -59,8 +59,6 @@ public class GATestManager {
 			logAverageFinalDistance(average);
 			
 		}
-		
-		
 		
 	}
 
