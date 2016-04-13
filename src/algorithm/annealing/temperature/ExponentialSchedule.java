@@ -29,4 +29,9 @@ public class ExponentialSchedule implements TemperatureSchedule {
 		return currentTemperature < COOL_THRESHOLD;
 	}
 
+	@Override
+	public void reset() {
+		this.currentTemperature = initialTemperature;		
+	}
+
 }

@@ -15,7 +15,7 @@ public class PopulationFactory {
 	
 	public static Population generate(int numTours, int numCities) {
 		
-		List<City> cities = CityFactory.generate();
+		List<City> cities = CityFactory.generateCircle(numCities);
         return new Population(generateRandom(numTours, cities));		
 		
 	}

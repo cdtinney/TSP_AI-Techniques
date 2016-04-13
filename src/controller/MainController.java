@@ -42,7 +42,7 @@ public class MainController {
 	public void run() {		
 		
 		saTestManager.test();
-//		gaTestManager.test();
+		gaTestManager.test();
 		
 	}
 	

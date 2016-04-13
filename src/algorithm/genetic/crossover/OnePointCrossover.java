@@ -4,7 +4,7 @@ import algorithm.RandomNumber;
 import model.City;
 import model.Tour;
 
-public class TwoPointCrossover implements CrossoverMethod {
+public class OnePointCrossover implements CrossoverMethod {
 
 	@Override
 	public Tour crossover(Tour parent1, Tour parent2) {
@@ -12,18 +12,13 @@ public class TwoPointCrossover implements CrossoverMethod {
 		// TODO - Use TourManager class to store information about cities/size
 		Tour child = new Tour(parent1.getSize());
 		
-		// Select two random indices
-		int rand1 = (int) (RandomNumber.random() * parent1.getSize());
-		int rand2 = (int) (RandomNumber.random() * parent1.getSize());
-		
-		// Use them to create subset indices
-		int startIndex = (rand1 < rand2 ? rand1 : rand2);
-		int endIndex = (rand1 > rand2 ? rand1 : rand2);
+		// Select one random index
+		int index = (int) (RandomNumber.random() * parent1.getSize());
 				
-		// Add the subset of cities from parent1 to the child, in correct positions
+		// Add the subset of cities from parent1 [0, index] to the child, in correct positions
 		for (int i=0; i<child.getSize(); i++) {
 			
-			if (i < startIndex || i > endIndex) continue;
+			if (i >= index) continue;
 			child.setCity(i, parent1.getCity(i));
 		
 		}

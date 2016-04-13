@@ -32,6 +32,7 @@ public class GeneticAlgorithm {
 			// Ensure both of the parents are different
 			while (true) {
 				
+				// TODO - Remove parents from initial population?
 				parent1 = fittestFromGroup(initPopulation);
 				parent2 = fittestFromGroup(initPopulation);
 				
@@ -42,6 +43,7 @@ public class GeneticAlgorithm {
 			}
 			
 			// Crossover parents to generate a new child Tour, and add it to the new population
+			// TODO - Should generate TWO new children
 			newPopulation.setTour(i, parameters.getCrossoverMethod().crossover(parent1, parent2));
 			
 		}

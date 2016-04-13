@@ -14,7 +14,7 @@ import algorithm.annealing.temperature.TemperatureSchedule;
 public class SATestManager {
 	
 	// Number of trials to run to determine an average
-	private final int NUM_TRIALS = 20;
+	private final int NUM_TRIALS = 1;
 	
 	// Thread delay between iterations (ms)
 	private static final int DELAY 			= 10;
@@ -26,15 +26,34 @@ public class SATestManager {
 	public void test() {
 		
 		log("Number of trials: " + NUM_TRIALS);
+		
+		long startTime = System.currentTimeMillis();
+		
+		testOptimal();
 //		testDefault();
-		testTemperatureSchedules();
+//		testTemperatureSchedules();
 //		testNeighborGenerators();
+		
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println(totalTime);
+		
+	}
+
+	private void testOptimal() {
+
+		log("Test - SA - Optimal");
+
+		List<SAResult> results = testAlgorithm(SAFactory.getOptimal());
+		double average = calculateFinalDistanceAverage(results);
+		logAverageFinalDistance(average);		
+		
 		
 	}
 
 	private void testDefault() {
 
-		log("Test - Default\n");
+		log("Test - SA - Default");
 
 		List<SAResult> results = testAlgorithm(SAFactory.getDefault());
 		double average = calculateFinalDistanceAverage(results);
@@ -70,10 +89,6 @@ public class SATestManager {
 			
 		}
 		
-	}
-
-	private void logNeighborGenerator(NeighborGenerator neighborGenerator) {
-		log("Neighbor Generator: " + neighborGenerator.getClass().getSimpleName());
 	}
 
 	private Map<SimulatedAnnealing, List<SAResult>> testAlgorithms(List<SimulatedAnnealing> algorithms) {
@@ -112,6 +127,12 @@ public class SATestManager {
 	}
 	
 	private void runSingleAlgorithm(SimulatedAnnealing sa) {
+		
+		// Reset the temperature schedule
+		sa.getParameters().getTemperatureSchedule().reset();
+		
+		// Reset the best tour
+		sa.reset();
 
 		int iteration = 0;
 		while (!sa.isFinished()) {
@@ -134,6 +155,10 @@ public class SATestManager {
 		
 		return sum / (double) NUM_TRIALS;
 		
+	}
+
+	private void logNeighborGenerator(NeighborGenerator neighborGenerator) {
+		log("Neighbor Generator: " + neighborGenerator.getClass().getSimpleName());
 	}
 	
 	private void logTemperatureSchedule(TemperatureSchedule temperatureSchedule) {

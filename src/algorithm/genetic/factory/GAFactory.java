@@ -6,6 +6,8 @@ import java.util.List;
 import algorithm.genetic.GAParameters;
 import algorithm.genetic.GeneticAlgorithm;
 import algorithm.genetic.crossover.CrossoverMethod;
+import algorithm.genetic.crossover.NoCrossover;
+import algorithm.genetic.crossover.OnePointCrossover;
 import algorithm.genetic.crossover.TwoPointCrossover;
 import algorithm.genetic.mutation.MutationMethod;
 import algorithm.genetic.mutation.ReverseSubsetMutation;
@@ -16,6 +18,18 @@ public class GAFactory {
 	
 	public static GeneticAlgorithm getDefault() {
 		return new GeneticAlgorithm(new GAParameters());
+	}
+	
+	public static GeneticAlgorithm getOptimal() {
+		
+		GAParameters params = new GAParameters();
+		params.setMutationMethod(new SwapOnlyImprovingMutation());
+		params.setMutationRate(0.05);
+		params.setCrossoverMethod(new OnePointCrossover());
+		params.setNumGenerations(50);
+		params.setPopulationSize(50);
+		return new GeneticAlgorithm(params);
+		
 	}
 	
 	public static List<GeneticAlgorithm> getMutationRates(double min, double max, double increment) {
@@ -49,6 +63,8 @@ public class GAFactory {
 		
 		List<Class<? extends CrossoverMethod>> classes = new ArrayList<Class<? extends CrossoverMethod>>();
 		classes.add(TwoPointCrossover.class);
+		classes.add(OnePointCrossover.class);
+		classes.add(NoCrossover.class);
 
 		List<GeneticAlgorithm> result = new ArrayList<GeneticAlgorithm>();
 		for (Class<? extends CrossoverMethod> clazz : classes) {

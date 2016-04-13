@@ -21,12 +21,16 @@ public class SimulatedAnnealing implements ObservableAlgorithm {
 	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
 	
 	public SimulatedAnnealing() {
-		setBestTour(new Tour(CityFactory.generate()));
+		reset();
 	}
 	
 	public SimulatedAnnealing(SAParameters saParameters) {
 		this();
 		this.saParameters = saParameters;		
+	}
+	
+	public void reset() {
+		setBestTour(new Tour(CityFactory.generateCircle(20)));
 	}
 	
 	public void iterate(int iteration) {
@@ -90,7 +94,8 @@ public class SimulatedAnnealing implements ObservableAlgorithm {
 	        return 1.0;
 	    }
 	    
-	    // TODO - explain in own words - If the new solution is worse, calculate an acceptance probability
+	    // If the new solution is worse, calculate an acceptance probability using the equation
+	    // 	taught in class
 	    return Math.exp((currentDistance - newDistance) / currentTemperature);
 	    
 	}

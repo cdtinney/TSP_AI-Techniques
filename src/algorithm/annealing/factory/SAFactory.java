@@ -10,12 +10,22 @@ import algorithm.annealing.neighbor.NeighborGenerator;
 import algorithm.annealing.neighbor.RandomSwap;
 import algorithm.annealing.temperature.ExponentialSchedule;
 import algorithm.annealing.temperature.LinearSchedule;
+import algorithm.annealing.temperature.SigmoidSchedule;
 import algorithm.annealing.temperature.TemperatureSchedule;
 
 public class SAFactory {
 	
 	public static SimulatedAnnealing getDefault() {
 		return new SimulatedAnnealing(new SAParameters());
+	}
+	
+	public static SimulatedAnnealing getOptimal() {
+		
+		SAParameters params = new SAParameters();
+		params.setNeighborGenerator(new RandomSwap());
+		params.setTemperatureSchedule(new LinearSchedule());
+		return new SimulatedAnnealing(params);
+		
 	}
 
 	public static List<SimulatedAnnealing> getNeighborGenerators() {
@@ -50,6 +60,7 @@ public class SAFactory {
 		List<Class<? extends TemperatureSchedule>> classes = new ArrayList<Class<? extends TemperatureSchedule>>();
 		classes.add(LinearSchedule.class);
 		classes.add(ExponentialSchedule.class);
+		classes.add(SigmoidSchedule.class);
 
 		List<SimulatedAnnealing> result = new ArrayList<SimulatedAnnealing>();
 		for (Class<? extends TemperatureSchedule> clazz : classes) {

@@ -3,7 +3,7 @@ package algorithm.annealing.temperature;
 public class TemperatureScheduleFactory {
 	
 	public static TemperatureSchedule getDefault() {
-		return new ExponentialSchedule();
+		return new LinearSchedule();
 	}
 
 }

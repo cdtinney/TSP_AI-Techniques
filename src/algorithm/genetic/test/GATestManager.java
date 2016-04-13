@@ -16,20 +16,29 @@ import algorithm.genetic.mutation.MutationMethod;
 public class GATestManager {
 	
 	// Number of trials to run to determine an average
-	private final int NUM_TRIALS = 20;
+	private final int NUM_TRIALS = 1;
 	
 	// Store listeners so they can be added to new GAManager instances
 	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
 	
 	public void test() {
 		
+		System.out.println("Number of trials: " + NUM_TRIALS);
+		
+		long startTime = System.currentTimeMillis();
+		
+		testOptimal();
 //		testDefault();
 //		testMutationRates();
 //		testNumGenerations();
 //		testCrossoverMethods();		
-		testMutationMethods();
+//		testMutationMethods();
 //		testPopulationSizes();
 //		testGroupSizes();
+		
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println(totalTime);
 		
 	}
 
@@ -37,16 +46,29 @@ public class GATestManager {
 		listeners.add(listener);
 	}
 
-	private void testDefault() {
-		
-		GAManager gaManager = new GAManager(GAFactory.getDefault(), listeners, true);
-		gaManager.run();
+	private void testOptimal() {
+
+		log("Test - GA - Optimal");
+
+		List<GAResult> results = testAlgorithm(GAFactory.getOptimal());
+		double average = calculateFinalDistanceAverage(results);
+		logAverageFinalDistance(average);	
 		
 	}
-	
+
+	private void testDefault() {
+		
+		log("Test - GA - Default");
+
+		List<GAResult> results = testAlgorithm(GAFactory.getDefault());
+		double average = calculateFinalDistanceAverage(results);
+		logAverageFinalDistance(average);		
+		
+	}
+
 	private void testGroupSizes() {
 
-		int min = 5, max = 20, increment = 1;
+		int min = 2, max = 10, increment = 1;
 		log(String.format("Testing Group Sizes (min=%d, max=%d, increment=%d)", min, max, increment));
 
 		List<GeneticAlgorithm> algorithms = GAFactory.getGroupSizes(min, max, increment);		
@@ -64,7 +86,7 @@ public class GATestManager {
 
 	private void testPopulationSizes() {
 
-		int min = 5, max = 100, increment = 1;
+		int min = 5, max = 100, increment = 5;
 		log(String.format("Testing Population Sizes (min=%d, max=%d, increment=%d)", min, max, increment));
 
 		List<GeneticAlgorithm> algorithms = GAFactory.getPopulationSizes(min, max, increment);
@@ -116,10 +138,10 @@ public class GATestManager {
 
 	private void testNumGenerations() {
 
-		int min = 100, max = 1000, increment = 100;
+		int min = 25, max = 200, increment = 25;
 		log(String.format("Testing Num Generations (min=%d, max=%d, increment=%d)", min, max, increment));
 
-		List<GeneticAlgorithm> algorithms = GAFactory.getGenerations(100, 1000, 100);
+		List<GeneticAlgorithm> algorithms = GAFactory.getGenerations(min, max, increment);
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
 		
 		for (GeneticAlgorithm ga : results.keySet()) {
@@ -137,7 +159,7 @@ public class GATestManager {
 		double min = 0.0, max = 1.00, increment = 0.05;
 		log(String.format("Testing Mutation Rates (min=%f, max=%f, increment=%f)", min, max, increment));
 		
-		List<GeneticAlgorithm> algorithms = GAFactory.getMutationRates(0.00, 1.00, 0.05);	
+		List<GeneticAlgorithm> algorithms = GAFactory.getMutationRates(min, max, increment);	
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
 		
 		for (GeneticAlgorithm ga : results.keySet()) {
@@ -169,6 +191,25 @@ public class GATestManager {
 			}
 			
 		});
+		
+		return results;
+		
+	}
+	
+	private List<GAResult> testAlgorithm(GeneticAlgorithm alg) {
+		
+		List<GAResult> results = new ArrayList<GAResult>();	
+		for (int i=0; i<NUM_TRIALS; i++) {
+			
+			GAManager gaManager = new GAManager(alg, listeners, true);
+			
+			int initialDistance = gaManager.getCurrentDistance();				
+			gaManager.run();				
+			int finalDistance = gaManager.getCurrentDistance();
+			
+			results.add(new GAResult(alg.getParameters(), initialDistance, finalDistance));
+		
+		}
 		
 		return results;
 		
