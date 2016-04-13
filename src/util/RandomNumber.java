@@ -1,16 +1,16 @@
-package algorithm;
+package util;
 
 import java.util.Random;
 
+import configuration.TestConfig;
+
 public class RandomNumber {
-	
-	public static final boolean TEST 		= true;
 	
 	private static final int DEFAULT_SEED 	= 123456789;
 	private static final Random RANDOM 		= new Random(DEFAULT_SEED);
 	
 	public static double random() {
-		return TEST ? RANDOM.nextDouble() : Math.random();
+		return !TestConfig.USE_RANDOMNESS ? RANDOM.nextDouble() : Math.random();
 	}
 	
 }

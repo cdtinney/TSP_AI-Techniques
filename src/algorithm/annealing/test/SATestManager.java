@@ -10,39 +10,32 @@ import algorithm.annealing.SimulatedAnnealing;
 import algorithm.annealing.factory.SAFactory;
 import algorithm.annealing.neighbor.NeighborGenerator;
 import algorithm.annealing.temperature.TemperatureSchedule;
+import configuration.TestConfig;
 
 public class SATestManager {
-	
-	// Number of trials to run to determine an average
-	private final int NUM_TRIALS = 1;
-	
-	// Thread delay between iterations (ms)
-	private static final int DELAY 			= 10;
-	private static final boolean USE_DELAY 	= false;
 	
 	// Store listeners so they can be added to new GAManager instances
 	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
 
 	public void test() {
 		
-		log("Number of trials: " + NUM_TRIALS);
+		if (TestConfig.TEST_SA_OPTIMAL)
+			testOptimal();
+
+		if (TestConfig.TEST_SA_DEFAULT)
+			testDefault();
 		
-		long startTime = System.currentTimeMillis();
-		
-		testOptimal();
-//		testDefault();
-//		testTemperatureSchedules();
-//		testNeighborGenerators();
-		
-		long endTime   = System.currentTimeMillis();
-		long totalTime = endTime - startTime;
-		System.out.println(totalTime);
+		if (TestConfig.TEST_SA_TEMPERATURE_SCHEDULE)
+			testTemperatureSchedules();
+			
+		if (TestConfig.TEST_SA_NEIGHBOR_GENERATION)
+			testNeighborGenerators();
 		
 	}
 
 	private void testOptimal() {
 
-		log("Test - SA - Optimal");
+		logTestName("[TEST] SA - Optimal");
 
 		List<SAResult> results = testAlgorithm(SAFactory.getOptimal());
 		double average = calculateFinalDistanceAverage(results);
@@ -53,7 +46,7 @@ public class SATestManager {
 
 	private void testDefault() {
 
-		log("Test - SA - Default");
+		logTestName("[TEST] SA - Default");
 
 		List<SAResult> results = testAlgorithm(SAFactory.getDefault());
 		double average = calculateFinalDistanceAverage(results);
@@ -63,7 +56,7 @@ public class SATestManager {
 	
 	private void testTemperatureSchedules() {
 
-		log("Test - Temperature Schedules\n");
+		logTestName("[TEST] SA - Temperature Schedules");
 
 		Map<SimulatedAnnealing, List<SAResult>> results = testAlgorithms(SAFactory.getTemperatureSchedules());		
 		for (SimulatedAnnealing sa : results.keySet()) {
@@ -78,7 +71,7 @@ public class SATestManager {
 	
 	private void testNeighborGenerators() {
 
-		log("Test - Neighbor Generators\n");
+		logTestName("[TEST] SA - Neighbor Generators");
 
 		Map<SimulatedAnnealing, List<SAResult>> results = testAlgorithms(SAFactory.getNeighborGenerators());		
 		for (SimulatedAnnealing sa : results.keySet()) {
@@ -112,7 +105,7 @@ public class SATestManager {
 		saAlgorithm.addListeners(listeners);
 		
 		List<SAResult> results = new ArrayList<SAResult>();	
-		for (int i=0; i<NUM_TRIALS; i++) {
+		for (int i=0; i<TestConfig.NUM_TEST_TRIALS; i++) {
 			
 			int initialDistance = saAlgorithm.getCurrentDistance();			
 			runSingleAlgorithm(saAlgorithm);				
@@ -136,12 +129,7 @@ public class SATestManager {
 
 		int iteration = 0;
 		while (!sa.isFinished()) {
-			
-			sa.iterate(iteration++);
-			if (USE_DELAY) {
-				sleep();
-			}
-			
+			sa.iterate(iteration++);			
 		}
 		
 	}
@@ -149,40 +137,33 @@ public class SATestManager {
 	private double calculateFinalDistanceAverage(List<SAResult> results) {
 		
 		double sum = 0;
-		for (int i=0; i<NUM_TRIALS; i++) {
+		for (int i=0; i<TestConfig.NUM_TEST_TRIALS; i++) {
 			sum += results.get(i).getFinalDistance();
 		}
 		
-		return sum / (double) NUM_TRIALS;
+		return sum / (double) TestConfig.NUM_TEST_TRIALS;
 		
 	}
 
 	private void logNeighborGenerator(NeighborGenerator neighborGenerator) {
-		log("Neighbor Generator: " + neighborGenerator.getClass().getSimpleName());
+		log(neighborGenerator.getClass().getSimpleName());
 	}
 	
 	private void logTemperatureSchedule(TemperatureSchedule temperatureSchedule) {
-		log("Temperature Schedule: " + temperatureSchedule.getClass().getSimpleName());
+		log(temperatureSchedule.getClass().getSimpleName());
 	}
 	
 	private void logAverageFinalDistance(double average) {
 		log(String.format("\tAverage Final Distance: %.2f ", average));
 	}
 	
-	private void log(String str) {
+	private void logTestName(String str) {
+		System.out.println("\n-------------------------------");
 		System.out.println(str);
 	}
 	
-	private void sleep() {
-        
-        try {
-        	Thread.sleep(DELAY);             
-            
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-            
-        }
-		
+	private void log(String str) {
+		System.out.println(str);
 	}
 
 	public void addListener(AlgorithmListener listener) {

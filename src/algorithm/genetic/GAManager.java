@@ -10,10 +10,6 @@ import model.Population;
 
 public class GAManager implements ObservableAlgorithm {
 	
-	// Thread delay between iterations (ms)
-	private static final int DELAY 			= 50;
-	private static final boolean USE_DELAY 	= false;
-	
 	// Model information
 	private Population currentPopulation;
 	private GeneticAlgorithm geneticAlgorithm;
@@ -53,22 +49,6 @@ public class GAManager implements ObservableAlgorithm {
         	
         	currentPopulation = geneticAlgorithm.evolve(currentPopulation);            
             notifyListeners();
-            
-            if (USE_DELAY) {
-                sleep();
-            }
-            
-        }
-		
-	}
-	
-	private void sleep() {
-        
-        try {
-        	Thread.sleep(DELAY);             
-            
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
             
         }
 		

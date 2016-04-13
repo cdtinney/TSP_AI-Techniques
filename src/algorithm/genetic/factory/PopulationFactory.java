@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import configuration.TestConfig;
 import model.City;
 import model.CityFactory;
 import model.Population;
 import model.Tour;
 
 public class PopulationFactory {
-	
-	private static final boolean TEST = true;
 	
 	public static Population generate(int numTours, int numCities) {
 		
@@ -29,7 +28,7 @@ public class PopulationFactory {
 			
 			// If we're not testing, don't shuffle the order of the cities. This will fix the 
 			// initial population for all instances.
-			if (!TEST) {
+			if (TestConfig.USE_RANDOMNESS) {
 				Collections.shuffle(randomCities);
 			}
 			

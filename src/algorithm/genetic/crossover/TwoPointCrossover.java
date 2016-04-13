@@ -1,8 +1,8 @@
 package algorithm.genetic.crossover;
 
-import algorithm.RandomNumber;
 import model.City;
 import model.Tour;
+import util.RandomNumber;
 
 public class TwoPointCrossover implements CrossoverMethod {
 

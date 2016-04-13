@@ -5,11 +5,11 @@ import java.util.List;
 
 import algorithm.AlgorithmListener;
 import algorithm.ObservableAlgorithm;
-import algorithm.RandomNumber;
 import algorithm.annealing.neighbor.NeighborGenerator;
 import algorithm.annealing.temperature.TemperatureSchedule;
 import model.CityFactory;
 import model.Tour;
+import util.RandomNumber;
 
 public class SimulatedAnnealing implements ObservableAlgorithm { 
 	

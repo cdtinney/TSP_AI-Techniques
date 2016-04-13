@@ -12,33 +12,38 @@ import algorithm.genetic.GeneticAlgorithm;
 import algorithm.genetic.crossover.CrossoverMethod;
 import algorithm.genetic.factory.GAFactory;
 import algorithm.genetic.mutation.MutationMethod;
+import configuration.TestConfig;
 
 public class GATestManager {
-	
-	// Number of trials to run to determine an average
-	private final int NUM_TRIALS = 1;
 	
 	// Store listeners so they can be added to new GAManager instances
 	private List<AlgorithmListener> listeners = new ArrayList<AlgorithmListener>();
 	
 	public void test() {
 		
-		System.out.println("Number of trials: " + NUM_TRIALS);
+		if (TestConfig.TEST_GA_OPTIMAL)
+			testOptimal();
 		
-		long startTime = System.currentTimeMillis();
+		if (TestConfig.TEST_GA_DEFAULT)
+			testDefault();
 		
-		testOptimal();
-//		testDefault();
-//		testMutationRates();
-//		testNumGenerations();
-//		testCrossoverMethods();		
-//		testMutationMethods();
-//		testPopulationSizes();
-//		testGroupSizes();
+		if (TestConfig.TEST_GA_MUTATION)
+			testMutationMethods();
 		
-		long endTime   = System.currentTimeMillis();
-		long totalTime = endTime - startTime;
-		System.out.println(totalTime);
+		if (TestConfig.TEST_GA_MUTATION_RATE)
+			testMutationRates();
+		
+		if (TestConfig.TEST_GA_NUM_GENERATIONS)
+			testNumGenerations();
+			
+		if (TestConfig.TEST_GA_CROSSOVER)
+			testCrossoverMethods();		
+			
+		if (TestConfig.TEST_GA_POPULATION_SIZE)
+			testPopulationSizes();
+			
+		if (TestConfig.TEST_GA_GROUPS)
+			testGroupSizes();
 		
 	}
 
@@ -48,7 +53,7 @@ public class GATestManager {
 
 	private void testOptimal() {
 
-		log("Test - GA - Optimal");
+		logTestName("[TEST] GA - Optimal");
 
 		List<GAResult> results = testAlgorithm(GAFactory.getOptimal());
 		double average = calculateFinalDistanceAverage(results);
@@ -58,7 +63,7 @@ public class GATestManager {
 
 	private void testDefault() {
 		
-		log("Test - GA - Default");
+		logTestName("[TEST] GA - Default");
 
 		List<GAResult> results = testAlgorithm(GAFactory.getDefault());
 		double average = calculateFinalDistanceAverage(results);
@@ -69,7 +74,7 @@ public class GATestManager {
 	private void testGroupSizes() {
 
 		int min = 2, max = 10, increment = 1;
-		log(String.format("Testing Group Sizes (min=%d, max=%d, increment=%d)", min, max, increment));
+		logTestName(String.format("[TEST] GA - Group Size (min=%d, max=%d, increment=%d)", min, max, increment));
 
 		List<GeneticAlgorithm> algorithms = GAFactory.getGroupSizes(min, max, increment);		
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
@@ -87,7 +92,7 @@ public class GATestManager {
 	private void testPopulationSizes() {
 
 		int min = 5, max = 100, increment = 5;
-		log(String.format("Testing Population Sizes (min=%d, max=%d, increment=%d)", min, max, increment));
+		logTestName(String.format("[TEST] GA - Population Size (min=%d, max=%d, increment=%d)", min, max, increment));
 
 		List<GeneticAlgorithm> algorithms = GAFactory.getPopulationSizes(min, max, increment);
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
@@ -104,7 +109,7 @@ public class GATestManager {
 	
 	private void testCrossoverMethods() {
 
-		log("Testing Crossover Methods");
+		logTestName("[TEST] GA - Crossover Method");
 
 		List<GeneticAlgorithm> algorithms = GAFactory.getCrossoverMethods();
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
@@ -121,7 +126,7 @@ public class GATestManager {
 
 	private void testMutationMethods() {
 
-		log("Testing Mutation Methods");
+		logTestName("[TEST] GA - Mutation Method");
 
 		List<GeneticAlgorithm> algorithms = GAFactory.getMutationMethods();
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
@@ -139,7 +144,7 @@ public class GATestManager {
 	private void testNumGenerations() {
 
 		int min = 25, max = 200, increment = 25;
-		log(String.format("Testing Num Generations (min=%d, max=%d, increment=%d)", min, max, increment));
+		logTestName(String.format("[TEST] GA - Num Generations (min=%d, max=%d, increment=%d)", min, max, increment));
 
 		List<GeneticAlgorithm> algorithms = GAFactory.getGenerations(min, max, increment);
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
@@ -156,8 +161,8 @@ public class GATestManager {
 	
 	private void testMutationRates() {
 
-		double min = 0.0, max = 1.00, increment = 0.05;
-		log(String.format("Testing Mutation Rates (min=%f, max=%f, increment=%f)", min, max, increment));
+		double min = 0.05, max = 0.75, increment = 0.05;
+		logTestName(String.format("[TEST] GA - Mutation Rate (min=%f, max=%f, increment=%f)", min, max, increment));
 		
 		List<GeneticAlgorithm> algorithms = GAFactory.getMutationRates(min, max, increment);	
 		Map<GeneticAlgorithm, List<GAResult>> results = testAlgorithms(algorithms);
@@ -177,7 +182,7 @@ public class GATestManager {
 		Map<GeneticAlgorithm, List<GAResult>> results = new LinkedHashMap<GeneticAlgorithm, List<GAResult>>();
 		algorithms.forEach(alg -> {
 			
-			for (int i=0; i<NUM_TRIALS; i++) {
+			for (int i=0; i<TestConfig.NUM_TEST_TRIALS; i++) {
 			
 				GAManager gaManager = new GAManager(alg, listeners, true);
 				
@@ -199,7 +204,7 @@ public class GATestManager {
 	private List<GAResult> testAlgorithm(GeneticAlgorithm alg) {
 		
 		List<GAResult> results = new ArrayList<GAResult>();	
-		for (int i=0; i<NUM_TRIALS; i++) {
+		for (int i=0; i<TestConfig.NUM_TEST_TRIALS; i++) {
 			
 			GAManager gaManager = new GAManager(alg, listeners, true);
 			
@@ -218,11 +223,11 @@ public class GATestManager {
 	private double calculateFinalDistanceAverage(List<GAResult> results) {
 		
 		double sum = 0;
-		for (int i=0; i<NUM_TRIALS; i++) {
+		for (int i=0; i<TestConfig.NUM_TEST_TRIALS; i++) {
 			sum += results.get(i).getFinalDistance();
 		}
 		
-		return sum / (double) NUM_TRIALS;
+		return sum / (double) TestConfig.NUM_TEST_TRIALS;
 		
 	}
 	
@@ -268,6 +273,11 @@ public class GATestManager {
 	}
 	
 	private void log(String str) {
+		System.out.println(str);
+	}
+	
+	private void logTestName(String str) {
+		System.out.println("\n-------------------------------");
 		System.out.println(str);
 	}
 

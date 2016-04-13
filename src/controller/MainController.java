@@ -3,6 +3,7 @@ package controller;
 import algorithm.annealing.test.SATestManager;
 import algorithm.genetic.test.GATestManager;
 import application.MainApplication;
+import configuration.TestConfig;
 import javafx.application.Platform;
 import view.MainView;
 
@@ -17,32 +18,48 @@ public class MainController {
 	
 	public void init() {
 		
-		saTestManager.addListener(tour -> {
-
-			// Run on the JavaFX thread
-			Platform.runLater(() -> {
-				view.updateTour(tour);			
-				view.updateText("Distance: " + String.valueOf(tour.getDistance()));
-			});
-			
-		});
+		if (TestConfig.CIRCLE_CITIES) {
 		
-		gaTestManager.addListener(tour -> {
+			if (TestConfig.TEST_SA) {
+				
+				saTestManager.addListener(tour -> {
+		
+					// Run on the JavaFX thread
+					Platform.runLater(() -> {
+						view.updateTour(tour);			
+						view.updateText("Distance: " + String.valueOf(tour.getDistance()));
+					});
+					
+				});
 			
-			// Run on the JavaFX thread
-			Platform.runLater(() -> {
-				view.updateTour(tour);			
-				view.updateText("Distance: " + String.valueOf(tour.getDistance()));
-			});
-			
-		});
+			}
+
+			if (TestConfig.TEST_GA) {
+				
+				gaTestManager.addListener(tour -> {
+					
+					// Run on the JavaFX thread
+					Platform.runLater(() -> {
+						view.updateTour(tour);			
+						view.updateText("Distance: " + String.valueOf(tour.getDistance()));
+					});
+					
+				});
+				
+			}
+
+		
+		}
 		
 	}
 	
 	public void run() {		
-		
-		saTestManager.test();
-		gaTestManager.test();
+
+		if (TestConfig.TEST_SA) 
+			saTestManager.test();
+
+		if (TestConfig.TEST_GA) 
+			gaTestManager.test();
 		
 	}
 	

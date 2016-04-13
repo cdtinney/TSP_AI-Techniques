@@ -1,11 +1,18 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import configuration.TestConfig;
 
 public class CityFactory {
 	
 	public static List<City> generate() {
+		
+		if (TestConfig.CIRCLE_CITIES) {
+			return generateCircle(TestConfig.NUM_CITIES);
+		}
 		
 		List<City> cities = new ArrayList<City>();
 		City city = new City(60, 200);
@@ -65,6 +72,8 @@ public class CityFactory {
 			City city = new City((int) x, (int) y);
 			cities.add(city);
 		}
+		
+		Collections.shuffle(cities);
 		
 		return cities;
 

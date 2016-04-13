@@ -4,20 +4,15 @@ import algorithm.genetic.crossover.CrossoverMethod;
 import algorithm.genetic.crossover.CrossoverMethodFactory;
 import algorithm.genetic.mutation.MutationFactory;
 import algorithm.genetic.mutation.MutationMethod;
+import configuration.GAConfig;
 
 public class GAParameters {
 	
-	private static final double 	MUTATION_RATE_DEFAULT 		= 0.015;
-	private static final boolean 	ELITISM_DEFAULT				= true;
-	private static final int		NUM_GENERATIONS_DEFAULT		= 100;
-	private static final int 		POPULATION_SIZE_DEFAULT 	= 35;
-	private static final int 		GROUP_SIZE_DEFAULT 			= 5;
-	
-	private double mutationRate 	= MUTATION_RATE_DEFAULT;
-	private boolean elitism 		= ELITISM_DEFAULT;
-	private int numGenerations		= NUM_GENERATIONS_DEFAULT;
-	private int populationSize 		= POPULATION_SIZE_DEFAULT;
-	private int 	groupSize 		= GROUP_SIZE_DEFAULT;
+	private double mutationRate 	= GAConfig.MUTATION_RATE_DEFAULT;
+	private boolean elitism 		= GAConfig.ELITISM_DEFAULT;
+	private int numGenerations		= GAConfig.NUM_GENERATIONS_DEFAULT;
+	private int populationSize 		= GAConfig.POPULATION_SIZE_DEFAULT;
+	private int 	groupSize 		= GAConfig.GROUP_SIZE_DEFAULT;
 	
 	private MutationMethod mutationMethod 	= MutationFactory.getDefault();
 	private CrossoverMethod crossoverMethod = CrossoverMethodFactory.getDefault();

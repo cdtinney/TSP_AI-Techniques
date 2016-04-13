@@ -1,14 +1,12 @@
 package algorithm.annealing.temperature;
 
+import configuration.SAConfig;
+
 public class LinearSchedule implements TemperatureSchedule {
 	
-	private static final double DEFAULT_INIT_TEMP 		= 10000;
-	private static final double DEFAULT_COOLING_RATE 	= 10;
-	private static final double COOL_THRESHOLD 			= 1;
-	
-	private double initialTemperature 	= DEFAULT_INIT_TEMP;
-	private double currentTemperature 	= DEFAULT_INIT_TEMP;
-	private double coolingRate 			= DEFAULT_COOLING_RATE;
+	private double initialTemperature 	= SAConfig.DEFAULT_INIT_TEMP;
+	private double currentTemperature 	= SAConfig.DEFAULT_INIT_TEMP;
+	private double coolingRate 			= SAConfig.DEFAULT_COOLING_RATE;
 	
 	public LinearSchedule() {
 		// Empty constructor
@@ -26,7 +24,7 @@ public class LinearSchedule implements TemperatureSchedule {
 
 	@Override
 	public boolean isCool() {
-		return currentTemperature < COOL_THRESHOLD;
+		return currentTemperature < SAConfig.COOL_THRESHOLD;
 	}
 
 	@Override
