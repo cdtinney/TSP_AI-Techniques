@@ -5,7 +5,7 @@ public class TestConfig {
 	public static boolean 	DISPLAY_UI = true;			// If set to false, UI will not be launched
 	
 	public static boolean 	CIRCLE_CITIES = false;		// If set to true, algorithms will be run using cities shaped in a circle
-	public static int 		NUM_CITIES = 20;			// Number of cities in the non-circle city configuration
+	public static int 		NUM_CITIES = 30;			// Number of cities in the non-circle city configuration
 	
 	public static int 		NUM_TEST_TRIALS = 20;		// Number of trials to run for each algorithm to determine an average
 	

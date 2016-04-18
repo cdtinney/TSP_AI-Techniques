@@ -30,7 +30,7 @@ public class SimulatedAnnealing implements ObservableAlgorithm {
 	}
 	
 	public void reset() {
-		setBestTour(new Tour(CityFactory.generateCircle(20)));
+		setBestTour(new Tour(CityFactory.generate()));
 	}
 	
 	public void iterate(int iteration) {

@@ -18,7 +18,7 @@ public class MainController {
 	
 	public void init() {
 		
-		if (TestConfig.CIRCLE_CITIES) {
+		if (TestConfig.DISPLAY_UI) {
 		
 			if (TestConfig.TEST_SA) {
 				
