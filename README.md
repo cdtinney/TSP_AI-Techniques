@@ -1,4 +1,4 @@
-# TSP - Genetic Algorithms
+# TSP - Simulated Annealing & Genetic Algorithms
 
 **Course:** COMP4106 - Artificial Intelligence
 
